@@ -32,3 +32,6 @@ secrets.yaml
 
 ### pycache
 __pycache__/
+
+### db dumps
+db*.dump

@@ -4,6 +4,7 @@ metadata:
   name: pravnamreza
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: 10m
 spec:
   ingressClassName: nginx
@@ -23,16 +24,6 @@ spec:
                 name: pravnamreza
                 port:
                   number: 8000
-    - host: www.pravna-mreza.si
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: pravnamreza
-                port:
-                  number: 8000
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -41,18 +32,14 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
     nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "*" # TODO
-    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: 10m
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - files.pravnamreza.si
+        - files.pravna-mreza.si
       secretName: pravnamreza-nginx-tls
   rules:
-    - host: files.pravnamreza.si
+    - host: files.pravna-mreza.si
       http:
         paths:
           - path: /
