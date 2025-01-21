@@ -16,19 +16,21 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      volumes:
+        - name: pravnamreza-storage
+          emptyDir: {}
       initContainers:
         - name: collectstatic
           image: pravnamreza
+          volumeMounts:
+            - name: pravnamreza-storage
+              mountPath: /storage
           command:
             - python
             - manage.py
             - collectstatic
             - --no-input
           env:
-            - name: APP_ENV
-              value: production
-            - name: PYTHONPATH
-              value: /code:$PYTHONPATH
             - name: DJANGO_SETTINGS_MODULE
               value: pravnamreza.settings.production
           envFrom:
@@ -36,22 +38,22 @@ spec:
                 name: pmvd-config
           resources:
             requests:
-              memory: 200Mi
-              cpu: 100m
+              memory: 400Mi
+              cpu: 200m
             limits:
-              memory: 200Mi
-              cpu: 100m
+              memory: 600Mi
+              cpu: 400m
         - name: migrate
           image: pravnamreza
+          volumeMounts:
+            - name: pravnamreza-storage
+              mountPath: /storage
           command:
             - python
             - manage.py
             - migrate
+            - --no-input
           env:
-            - name: APP_ENV
-              value: production
-            - name: PYTHONPATH
-              value: /code:$PYTHONPATH
             - name: DJANGO_SETTINGS_MODULE
               value: pravnamreza.settings.production
           envFrom:
@@ -59,14 +61,17 @@ spec:
                 name: pmvd-config
           resources:
             requests:
-              memory: 200Mi
-              cpu: 100m
+              memory: 400Mi
+              cpu: 200m
             limits:
-              memory: 200Mi
-              cpu: 100m
+              memory: 600Mi
+              cpu: 400m
       containers:
         - name: pravnamreza
-          image: pravnamreza # kustomize thing
+          image: pravnamreza
+          volumeMounts:
+            - name: pravnamreza-storage
+              mountPath: /storage
           command:
             - gunicorn
             - pravnamreza.wsgi:application
@@ -81,26 +86,8 @@ spec:
             - --timeout
             - "90"
           ports:
-            - name: http
-              containerPort: 8000
-              protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: http
-            initialDelaySeconds: 10
-            periodSeconds: 15
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 15
-            periodSeconds: 30
-            timeoutSeconds: 5
+            - containerPort: 8000
           env:
-            - name: APP_ENV
-              value: production
-            - name: PYTHONPATH
-              value: /code:$PYTHONPATH
             - name: DJANGO_SETTINGS_MODULE
               value: pravnamreza.settings.production
           envFrom:
@@ -109,7 +96,21 @@ spec:
           resources:
             requests:
               memory: 400Mi
-              cpu: 100m
+              cpu: 200m
             limits:
-              memory: 400Mi
+              memory: 600Mi
+              cpu: 400m
+        - name: pravnamreza-nginx
+          image: nginx:alpine
+          volumeMounts:
+            - name: pravnamreza-storage
+              mountPath: /usr/share/nginx/html
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: 50Mi
+              cpu: 50m
+            limits:
+              memory: 100Mi
               cpu: 100m
