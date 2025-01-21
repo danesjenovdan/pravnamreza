@@ -1,6 +1,7 @@
 volumes:
   postgres-data:
 
+
 services:
   web:
     container_name: "web"
@@ -20,7 +21,7 @@ services:
 
   db:
     container_name: "db"
-    image: postgres:12.3-alpine
+    image: postgres:15-alpine
     environment:
       POSTGRES_USER: wagtail
       POSTGRES_DB: wagtail
