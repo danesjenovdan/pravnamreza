@@ -185,7 +185,7 @@ WAGTAIL_SITE_NAME = "pravnamreza"
 rtv_provider = {
     "endpoint": "https://365.rtvslo.si/embed",
     "urls": [
-        "^http(?:s)?://365\.rtvslo\.si/embed/.+$",
+        "^http(?:s)?://365\\.rtvslo\\.si/embed/.+$",
     ],
 }
 
