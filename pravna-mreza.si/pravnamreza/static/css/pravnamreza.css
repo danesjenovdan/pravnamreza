@@ -1024,18 +1024,16 @@ footer .footer-logo img {
 
 /* HEADER */
 header {
-  /* padding-top: 10px;
-  padding-bottom: 10px; */
   background-color: white;
-  border-bottom: 2px solid #d8d1e9;
 }
 
 header a.home-link {
   display: flex;
 }
 
-header a.home-link img {
-  height: 80px;
+header a.home-link h2 svg {
+  width: auto;
+  height: 50px;
 }
 
 header a.home-link,
@@ -1056,38 +1054,38 @@ header h2 .spaced {
   letter-spacing: 3px;
 }
 
+header .navbar .navbar-nav {
+  gap: 14px;
+}
+
 header .nav-item {
-  height: 40px;
   display: flex;
   align-items: center;
 }
 
-header .nav-item.nav-item-border {
-  border: 2px solid #160444;
-}
-
-header .nav-item:hover {
-  background-color: #d8d1e9;
-}
-
-header .nav-link {
+header .navbar .nav-item a.nav-link {
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 7px;
+  padding-bottom: 7px;
   font-family: var(--font-family-sans-serif);
-  font-weight: 500;
+  font-weight: 700;
   color: #160444;
   line-height: 20px;
 }
 
-header .nav-link.active {
+header .navbar .nav-item.nav-item-border a.nav-link {
+  background: linear-gradient(92.89deg, #3A1791 0.54%, #160444 99.5%);
+  color: #fff;
+}
+
+header .navbar .nav-item a.nav-link:hover,
+header .navbar .nav-item a.nav-link.active {
   text-decoration: underline;
 }
 
-header .nav-item.nav-item-border:hover {
-  background-color: #160444;
-}
-
-header .nav-item.nav-item-border:hover .nav-link {
-  color: white;
-  text-decoration: none;
+header .navbar .nav-item a.nav-link.active {
+  background: linear-gradient(100.24deg, #ECE6F8 0%, #D3C8EE 100%);
 }
 
 .headline {
