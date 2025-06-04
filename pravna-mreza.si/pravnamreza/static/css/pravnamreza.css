@@ -1,3 +1,8 @@
+:root {
+  --font-family-serif: "wf-alegreya", serif;
+  --font-family-sans-serif: "wf-space-grotesk", sans-serif;
+}
+
 .flex-page-height {
   display: flex;
   flex-direction: column;
@@ -50,7 +55,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-weight: 700;
   color: #3a1791;
   text-transform: uppercase;
@@ -59,7 +64,7 @@ h4 {
 h1 .serif,
 h2 .serif,
 h3 .serif {
-  font-family: "Alegreya", "serif";
+  font-family: var(--font-family-serif);
   font-weight: 800;
   color: #17093a;
   text-transform: none;
@@ -115,7 +120,7 @@ h2 .spaced {
 
 .archive-title h1 {
   color: #17093a;
-  font-family: "Alegreya", "serif";
+  font-family: var(--font-family-serif);
   font-size: 60px;
   font-weight: 800;
   letter-spacing: 4px;
@@ -137,7 +142,7 @@ h2 .spaced {
 }
 
 p, .blog-body li {
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-weight: 300;
   color: #17093a;
   font-size: 20px;
@@ -184,7 +189,7 @@ hr.short {
 }
 
 .vertical-line {
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
   font-weight: 300;
 }
 
@@ -269,7 +274,7 @@ hr.short {
 
 .square.square-dark-purple h3:first-child {
   text-transform: none;
-  font-family: "Alegreya", "serif";
+  font-family: var(--font-family-serif);
 }
 
 .social-media {
@@ -299,7 +304,7 @@ hr.short {
   color: #17093a;
   line-height: 30px;
   font-size: 24px;
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
   padding: 0.5rem 1rem;
 }
 
@@ -309,7 +314,7 @@ hr.short {
 
 #newsletter-form label {
   color: white;
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
   font-size: 16px;
   line-height: 18px;
 }
@@ -383,14 +388,14 @@ hr.short {
 }
 
 .manage {
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
 }
 
 .manage h5 {
   margin-bottom: 28px;
 }
 
-.manage #newsletter-error-message, 
+.manage #newsletter-error-message,
 .manage #newsletter-success-message {
   color: #3a1791;
   font-size: 24px;
@@ -438,13 +443,13 @@ hr.short {
 }
 
 .square.square-light-purple h3:first-of-type {
-  font-family: "Alegreya", "serif";
+  font-family: var(--font-family-serif);
   text-transform: none;
   font-style: italic;
 }
 
 .square.square-light-purple h3:last-of-type {
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
 }
 
 .square.square-light-purple .support-btn {
@@ -508,7 +513,7 @@ hr.short {
 }
 
 .square-button h3 {
-  font-family: "Alegreya", "serif";
+  font-family: var(--font-family-serif);
   font-size: 28px;
   font-weight: 800;
   text-transform: uppercase;
@@ -518,7 +523,7 @@ hr.short {
 }
 
 .square-button p {
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
   font-size: 18px;
   line-height: 1.2;
   letter-spacing: 1.6px;
@@ -600,7 +605,7 @@ hr.short {
 .row-light-purple .square-button h3,
 .row-light-purple .square-button p {
   color: #17093a;
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-style: normal;
 }
 
@@ -614,7 +619,7 @@ hr.short {
 }
 
 .row-light-purple h1.serif {
-  font-family: "Alegreya", "serif";
+  font-family: var(--font-family-serif);
 }
 .row-light-purple h1.spaced {
   letter-spacing: 6.4px;
@@ -655,7 +660,7 @@ hr.short {
 .btn {
   border-radius: 0;
   text-transform: uppercase;
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-weight: 700;
   padding: 0.65rem 1.5rem;
   font-size: 12px;
@@ -691,7 +696,7 @@ hr.short {
 .blog-preview h1,
 .blog-preview a {
   color: #3a1791;
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-weight: 700;
   font-size: 32px;
   line-height: 36px;
@@ -725,7 +730,7 @@ hr.short {
 
 .news-subtitle,
 .blog-subtitle {
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-weight: 300;
   font-size: 16px;
   /* line-height: 30px; */
@@ -755,7 +760,7 @@ hr.short {
 
 .blog-author {
   color: #17093a;
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
   font-weight: 700;
   font-size: 20px;
   line-height: 1;
@@ -779,7 +784,7 @@ hr.short {
 
 .blog-sidebar h6 {
   font-size: 18px;
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
   font-weight: 700;
   color: #3a1791;
   line-height: 1.25;
@@ -791,7 +796,7 @@ hr.short {
 }
 
 .blog-sidebar h4.serif {
-  font-family: "Alegreya", "serif";
+  font-family: var(--font-family-serif);
   font-style: italic;
 }
 
@@ -809,12 +814,12 @@ hr.short {
   display: inline;
   font-weight: 700;
   font-size: 20px;
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   color: #3a1791;
 }
 
 .archive-link {
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-weight: 700;
   letter-spacing: 1.28px;
   text-decoration: none;
@@ -843,7 +848,7 @@ hr.short {
   margin-top: 1.5rem;
 }
 
-.blog-body p, 
+.blog-body p,
 .blog-body li {
   font-size: 18px;
   line-height: 1.5;
@@ -870,7 +875,7 @@ hr.short {
 .back-link {
   color: #3a1791;
   font-size: 20px;
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
   font-weight: 700;
   line-height: 24px;
   letter-spacing: 2px;
@@ -905,7 +910,7 @@ hr.short {
 
 .achievement-box {
   background-color: #f7f6fb;
-  font-family: "Space Grotesk";
+  font-family: var(--font-family-sans-serif);
 }
 
 .achievement-box-col {
@@ -919,7 +924,7 @@ hr.short {
 }
 
 .achievement-box h3 {
-  font-family: "Alegreya", "serif";
+  font-family: var(--font-family-serif);
   text-transform: none;
   color: #17093a;
 }
@@ -937,7 +942,7 @@ hr.short {
 .page-num a {
   color: #3a1791;
   font-weight: 700;
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   text-decoration: none;
 }
 
@@ -950,7 +955,7 @@ footer .row-purple {
 
 footer nav a, .social-media-footer, .footer-text {
   color: #d8d1e9;
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 1.28px;
@@ -1010,7 +1015,7 @@ footer .row-credits p {
 }
 
 footer .footer-logo {
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
 }
 
 footer .footer-logo img {
@@ -1066,7 +1071,7 @@ header .nav-item:hover {
 }
 
 header .nav-link {
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-weight: 500;
   color: #160444;
   line-height: 20px;
@@ -1119,7 +1124,7 @@ header .nav-item.nav-item-border:hover .nav-link {
 
 .headline p {
   color: white;
-  font-family: "Alegreya";
+  font-family: var(--font-family-serif);
   font-weight: 700;
   font-style: italic;
   font-size: 44px;
@@ -1162,7 +1167,7 @@ header .nav-item.nav-item-border:hover .nav-link {
 .row-block-paragraph h2,
 .row-block-paragraph h3,
 .row-block-paragraph h4 {
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-weight: 700;
   color: #17093a;
   text-transform: none;
@@ -1189,7 +1194,7 @@ header .nav-item.nav-item-border:hover .nav-link {
 .row-block-paragraph ul,
 .row-block-paragraph ol,
 .row-block-paragraph blockquote {
-  font-family: "Space Grotesk", "sans-serif";
+  font-family: var(--font-family-sans-serif);
   font-weight: 300;
   font-size: 18px;
   line-height: 1.7;

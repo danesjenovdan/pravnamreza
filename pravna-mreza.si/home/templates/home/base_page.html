@@ -16,13 +16,13 @@
     </div>
 
     {% include "home/includes/footer.html" %}
-    
+
 </div>
 
 {% endblock content %}
 
 {% block extra_js %}
-<script type="text/javascript" src="{% static 'js/fitvids.min.js' %}?cacheme=3"></script>
+<script src="{% static 'js/fitvids.min.js' %}"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
