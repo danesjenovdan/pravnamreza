@@ -30,7 +30,6 @@ DEFAULT_LOGGING["handlers"]["console"]["filters"] = []
 INSTALLED_APPS = [
     "home",
     "novice",
-    "search",
     "blog",
     "monitoring",
     "achievements",
