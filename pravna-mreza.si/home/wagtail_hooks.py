@@ -12,7 +12,7 @@ from achievements.models import Achievement, AchievementTag
 from blog.models import Author
 from novice.models import NovicaTag
 
-from .models import Objava
+from .models import Infopush, Objava
 
 
 class NewTabExternalLinkHandler(LinkHandler):
@@ -82,6 +82,14 @@ class ObjavaAdmin(ModelAdmin):
     exclude_from_explorer = False
 
 
+class InfopushAdmin(ModelAdmin):
+    model = Infopush
+    menu_label = "Infopushi"
+    menu_order = 700
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+
+
 # Run hook with order=1 so it runs after admin is loaded (default order=0) and overrides rules
 @hooks.register("register_rich_text_features", order=1)
 def register_extra_rich_text_features(features):
@@ -126,3 +134,4 @@ modeladmin_register(AuthorsAdmin)
 modeladmin_register(AchievementTagsAdmin)
 modeladmin_register(AchievementsAdmin)
 modeladmin_register(ObjavaAdmin)
+modeladmin_register(InfopushAdmin)

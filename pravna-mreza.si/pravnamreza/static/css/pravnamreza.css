@@ -34,17 +34,12 @@
 }
 
 .row-purple {
-  background-image: linear-gradient(
-    -241deg,
-    #3a1791 0%,
-    #230a63 51%,
-    #160444 100%
-  );
+  background: linear-gradient(92.89deg, #3A1791 0.54%, #160444 99.5%);
   color: #fff;
 }
 
 .row-light-purple {
-  background-image: linear-gradient(-218deg, #ece6f8 0%, #d3c8ee 100%);
+  background: linear-gradient(100.24deg, #ECE6F8 0%, #D3C8EE 100%);
 }
 
 .row-light {
@@ -193,38 +188,58 @@ hr.short {
   font-weight: 300;
 }
 
-.infopush-bg {
-  background-image: linear-gradient(-218deg, #ece6f8 0%, #d3c8ee 100%);
-  position: absolute;
-  left: -2.5rem;
-  right: -2.5rem;
-  top: 0;
-  bottom: 0;
+.infopush {
+  margin-bottom: 1.5rem;
 }
 
-@media (max-width: 1240px) {
-  .infopush-bg {
-    left: -1.5rem;
-    right: -1.5rem;
-  }
+.infopush a {
+  display: block;
+  text-decoration: none;
 }
 
-@media (max-width: 575.98px) {
-  .infopush-bg {
-    left: 0;
-    right: 0;
-  }
+.infopush .infopush-image {
+  flex: 1;
+  flex-shrink: 0;
+  max-width: 380px;
+  margin-inline: auto;
+}
+
+.infopush .infopush-content {
+  flex: 2;
+  padding: 42px;
+  color: #fff;
+}
+
+.infopush .infopush-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .infopush h3 {
-  color: #3a1791;
+  margin-top: 0;
+  margin-bottom: 14px;
+  color: #fff;
   font-size: 32px;
   font-weight: 700;
   text-transform: none;
 }
 
-.infopush p {
-  font-size: 20px;
+.infopush p,
+.infopush ul,
+.infopush ol {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #fff;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.infopush .infopush-content svg {
+  height: 1em;
 }
 
 @media (max-width: 991.98px) {
@@ -232,7 +247,9 @@ hr.short {
     font-size: 24px;
   }
 
-  .infopush p {
+  .infopush p,
+  .infopush ul,
+  .infopush ol {
     font-size: 16px;
   }
 }
@@ -240,7 +257,7 @@ hr.short {
 .infopush .infopush-btn {
   font-size: 16px;
   font-weight: 700;
-  color: #3a1791;
+  color: #fff;
   border: 2px solid #3a1791;
   padding: 1rem 1.75rem;
 }
@@ -1089,10 +1106,10 @@ header .navbar .nav-item a.nav-link.active {
 }
 
 .headline {
-  margin-top: 98px;
-  padding-top: 100px;
-  padding-bottom: 100px;
-  min-height: 400px;
+  margin-top: 106px;
+  padding-top: 78px;
+  padding-bottom: 122px;
+  min-height: 265px;
   display: flex;
   align-items: center;
 }
@@ -1121,11 +1138,10 @@ header .navbar .nav-item a.nav-link.active {
 }
 
 .headline p {
-  color: white;
   font-family: var(--font-family-serif);
-  font-weight: 700;
+  font-weight: 800;
   font-style: italic;
-  font-size: 44px;
+  font-size: 48px;
   line-height: 54px;
   text-align: center;
 }
@@ -1133,9 +1149,6 @@ header .navbar .nav-item a.nav-link.active {
 @media (min-width: 992px) {
   .headline-text {
     padding-right: 70px;
-  }
-  .headline p {
-    text-align: left;
   }
   .heading-image {
     position: absolute;

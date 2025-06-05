@@ -5,16 +5,11 @@
 
 {% block page_body %}
 
-<div class="row row-purple headline px-4 px-lg-0 position-relative">
+<div class="row row-light-purple headline px-4 px-lg-0 position-relative">
   <div class="container">
     <div class="row">
-      <div class="col-lg-6 headline-text">
+      <div class="col-12 headline-text">
         {{ page.intro_text|safe }}
-      </div>
-      <div class="col-lg-6 d-flex align-items-center">
-        <div class="heading-image">
-          {% image page.intro_image width-1100 class="img-fluid" %}
-        </div>
       </div>
     </div>
   </div>

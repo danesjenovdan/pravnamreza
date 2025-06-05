@@ -4,9 +4,7 @@ from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, PageChooserPanel
 from wagtail.contrib.settings.models import BaseGenericSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import Image
 from wagtail.models import Page
-from wagtail.snippets.models import register_snippet
 
 from blog.models import BlogPage
 from novice.models import NovicaPage
@@ -45,9 +43,16 @@ class EmailLinkBlock(blocks.StructBlock):
         icon = "link"
 
 
-@register_snippet
 class Infopush(models.Model):
-    title = models.TextField(null=True, blank=True, verbose_name="Naslov (neobvezno)")
+    title = models.TextField(verbose_name="Naslov")
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Slika (neobvezno)",
+    )
     text = RichTextField(verbose_name="Opis")
     page = models.ForeignKey(
         "wagtailcore.Page",
@@ -57,19 +62,20 @@ class Infopush(models.Model):
         on_delete=models.SET_NULL,
         verbose_name="Povezava do strani (neobvezno)",
     )
-    page_text = models.TextField(
-        null=True, blank=True, verbose_name="Besedilo na gumbu s povezavo (neobvezno)"
-    )
 
     panels = [
         FieldPanel("title"),
+        FieldPanel("image"),
         FieldPanel("text", classname="full"),
-        FieldPanel("page_text"),
         PageChooserPanel("page"),
     ]
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = "Infopush"
+        verbose_name_plural = "Infopushi"
 
 
 @register_setting
@@ -274,16 +280,13 @@ class Objava(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "Medijsko pojavljanje"
+        verbose_name_plural = "Medijska pojavljanja"
+
 
 class HomePage(Page):
     intro_text = RichTextField(blank=True, null=True)
-    intro_image = models.ForeignKey(
-        "wagtailimages.Image",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
     news_section_title = models.TextField(
         verbose_name="Naslov sekcije z novicami", blank=True
     )
@@ -323,7 +326,6 @@ class HomePage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("intro_text", classname="full"),
-        FieldPanel("intro_image"),
         FieldPanel("news_section_title"),
         FieldPanel("news_section_archive_link_title"),
         FieldPanel("news_section_archive_link"),
