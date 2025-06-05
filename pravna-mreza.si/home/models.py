@@ -4,6 +4,7 @@ from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, PageChooserPanel
 from wagtail.contrib.settings.models import BaseGenericSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 
 from blog.models import BlogPage
@@ -286,7 +287,28 @@ class Objava(models.Model):
 
 
 class HomePage(Page):
-    intro_text = RichTextField(blank=True, null=True)
+    intro_text = RichTextField(
+        blank=True,
+        null=True,
+        verbose_name="Uvodno besedilo",
+    )
+    intro_boxes = StreamField(
+        [
+            (
+                "box",
+                blocks.StructBlock(
+                    [
+                        ("image", ImageChooserBlock(label="Slika")),
+                        ("text", blocks.CharBlock(label="Besedilo")),
+                    ],
+                    label="Kvadratek",
+                ),
+            ),
+        ],
+        verbose_name="Uvodni kvadratki",
+        null=True,
+        blank=True,
+    )
     news_section_title = models.TextField(
         verbose_name="Naslov sekcije z novicami", blank=True
     )
@@ -326,6 +348,7 @@ class HomePage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("intro_text", classname="full"),
+        FieldPanel("intro_boxes"),
         FieldPanel("news_section_title"),
         FieldPanel("news_section_archive_link_title"),
         FieldPanel("news_section_archive_link"),

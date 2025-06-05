@@ -188,6 +188,58 @@ hr.short {
   font-weight: 300;
 }
 
+.intro-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 64px 20px;
+  margin-top: -137px;
+  margin-bottom: 38px;
+}
+
+.intro-box {
+  flex: 1 1 206px;
+  max-width: 206px;
+  padding: 12px 28px 16px;
+  background-color: #fff;
+  border: 1px solid #3A1791;
+}
+
+.intro-box:nth-child(2n) {
+  transform: translateY(38px);
+}
+
+.intro-box .intro-box-text {
+  font-family: var(--font-family-serif);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+}
+
+.intro-box .intro-box-image {
+  margin-inline: 10px;
+  margin-bottom: 12px;
+}
+
+.intro-box .intro-box-image img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+@media (max-width: 575.98px) {
+  .intro-boxes {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .intro-box:nth-child(2n) {
+    transform: none;
+  }
+}
+
 .infopush {
   margin-bottom: 1.5rem;
 }

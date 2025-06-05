@@ -15,6 +15,27 @@
   </div>
 </div>
 
+{% if page.intro_boxes %}
+<div class="row row-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="intro-boxes">
+          {% for box in page.intro_boxes %}
+          <div class="intro-box">
+            <div class="intro-box-image">
+              {% image box.value.image width-270 class="img-fluid" %}
+            </div>
+            <div class="intro-box-text">{{ box.value.text }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% infopush %}
 
 <div class="row row-white px-4 px-lg-0">
