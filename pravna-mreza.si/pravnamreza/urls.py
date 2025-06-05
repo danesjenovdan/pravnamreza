@@ -1,18 +1,18 @@
 from django.conf import settings
 from django.contrib import admin
-from django.urls import include, path, re_path
+from django.templatetags.static import static
+from django.urls import include, path
 from django.views.generic import RedirectView
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 urlpatterns = [
-    re_path(r"^favicon\.ico$", RedirectView.as_view(url="/static/favicon.ico")),
+    path("favicon.ico", RedirectView.as_view(url=static("favicon.ico"))),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
 ]
-
 
 if settings.DEBUG:
     from django.conf.urls.static import static
@@ -21,7 +21,6 @@ if settings.DEBUG:
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 
 urlpatterns = urlpatterns + [
     # For anything not caught by a more specific rule above, hand over to
