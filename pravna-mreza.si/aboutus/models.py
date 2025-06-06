@@ -1,11 +1,11 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from wagtail import blocks
-from wagtail.admin.panels import FieldPanel, InlinePanel
-from wagtail.fields import RichTextField, StreamField
+from wagtail.admin.panels import FieldPanel
+from wagtail.fields import StreamField
 from wagtail.models import Page
 
-from home.models import Objava
+from home.models import Publication
 
 
 class AboutUsPage(Page):
@@ -36,7 +36,7 @@ class AboutUsPage(Page):
     # seznam medijskih objav
     def get_context(self, request):
         context = super().get_context(request)
-        all_publications = Objava.objects.all().order_by("-date")
+        all_publications = Publication.objects.all().order_by("-date")
         paginator = Paginator(all_publications, 10)
         page = request.GET.get("page")
         try:

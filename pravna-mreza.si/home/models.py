@@ -265,7 +265,7 @@ class Monitor(BaseGenericSetting):
         verbose_name = "Prispevaj"
 
 
-class Objava(models.Model):
+class Publication(models.Model):
     title = models.TextField()
     url = models.URLField()
     source = models.TextField()

@@ -8,7 +8,7 @@ from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 
 from achievements.models import Achievement, AchievementTag
 
-from .models import Infopush, Objava
+from .models import Infopush, Publication
 
 
 class NewTabExternalLinkHandler(LinkHandler):
@@ -54,8 +54,8 @@ class AchievementsAdmin(ModelAdmin):
     exclude_from_explorer = False
 
 
-class ObjavaAdmin(ModelAdmin):
-    model = Objava
+class PublicationAdmin(ModelAdmin):
+    model = Publication
     menu_label = "Medijska pojavljanja"
     menu_order = 600
     add_to_settings_menu = False
@@ -111,5 +111,5 @@ def register_extra_rich_text_features(features):
 
 modeladmin_register(AchievementTagsAdmin)
 modeladmin_register(AchievementsAdmin)
-modeladmin_register(ObjavaAdmin)
+modeladmin_register(PublicationAdmin)
 modeladmin_register(InfopushAdmin)
