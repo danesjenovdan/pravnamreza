@@ -7,8 +7,23 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
 
-class Author(models.Model):
-    name = models.TextField()
+class BlogTag(models.Model):
+    name = models.TextField(
+        verbose_name="Ime",
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Oznaka"
+        verbose_name_plural = "Oznake"
+
+
+class BlogAuthor(models.Model):
+    name = models.TextField(
+        verbose_name="Ime",
+    )
     image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -18,19 +33,30 @@ class Author(models.Model):
         verbose_name="Slika",
     )
 
-    panels = [
-        FieldPanel("name"),
-        FieldPanel("image"),
-    ]
-
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = "Avtor"
+        verbose_name_plural = "Avtorji"
+
 
 class BlogPage(Page):
-    date = models.DateField(verbose_name="Datum")
+    date = models.DateField(
+        verbose_name="Datum",
+    )
+    tag = models.ForeignKey(
+        BlogTag,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Oznaka",
+    )
     preview_text = RichTextField(
-        verbose_name="Opis na seznamu", blank=False, null=False, default=""
+        null=False,
+        blank=False,
+        default="",
+        verbose_name="Opis na seznamu",
     )
     preview_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -40,24 +66,24 @@ class BlogPage(Page):
         related_name="+",
         verbose_name="Slika",
     )
-    intro_text = RichTextField(blank=True, null=True, verbose_name="Opis pod naslovom")
+    intro_text = RichTextField(
+        null=True,
+        blank=True,
+        verbose_name="Opis pod naslovom",
+    )
     related_blog_posts = StreamField(
         [
             ("blog_post", blocks.PageChooserBlock(label="Povezava do blog zapisa")),
         ],
         blank=True,
         null=True,
-        # min_num=0,
-        # max_num=3,
         verbose_name="Povezani blog zapisi",
-        use_json_field=True,
     )
     body = StreamField(
         [
             ("paragraph", blocks.RichTextBlock()),
         ],
         verbose_name="Besedilo",
-        use_json_field=True,
     )
     meta_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -79,6 +105,7 @@ class BlogPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("date"),
+        FieldPanel("tag"),
         InlinePanel("blog_author_relationship", label="Avtorji"),
         FieldPanel("preview_text"),
         FieldPanel("preview_image"),
@@ -102,25 +129,37 @@ class BlogPage(Page):
         return context
 
     class Meta:
-        verbose_name = "Blog"
-        verbose_name_plural = "Blog"
+        verbose_name = "Objava"
+        verbose_name_plural = "Objave"
 
 
 class BlogAuthorRelationship(models.Model):
-    # the model that connects blog posts and authors
     blog = ParentalKey(
-        "BlogPage", related_name="blog_author_relationship", on_delete=models.CASCADE
+        "BlogPage",
+        related_name="blog_author_relationship",
+        on_delete=models.CASCADE,
     )
     author = models.ForeignKey(
-        "Author", related_name="+", on_delete=models.CASCADE, verbose_name="Avtor_ica"
+        "BlogAuthor",
+        related_name="+",
+        on_delete=models.CASCADE,
+        verbose_name="Avtor_ica",
     )
 
-    panels = [FieldPanel("author")]
+    panels = [
+        FieldPanel("author"),
+    ]
 
 
 class BlogArchivePage(Page):
-    headline_first = models.TextField(verbose_name="Naslovnica prvi del", blank=True)
-    headline_second = models.TextField(verbose_name="Naslovnica drugi del", blank=True)
+    headline_first = models.TextField(
+        blank=True,
+        verbose_name="Naslovnica prvi del",
+    )
+    headline_second = models.TextField(
+        blank=True,
+        verbose_name="Naslovnica drugi del",
+    )
     headline_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -159,5 +198,5 @@ class BlogArchivePage(Page):
         return context
 
     class Meta:
-        verbose_name = "Seznam blog zapisov"
-        verbose_name_plural = "Seznam blog zapisov"
+        verbose_name = "Seznam objav"
+        verbose_name_plural = "Seznami objav"

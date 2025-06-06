@@ -1,16 +1,12 @@
 from django.utils.html import escape
 from django.utils.text import slugify
-from django.utils.translation import gettext
 from draftjs_exporter.dom import DOM
 from wagtail import hooks
 from wagtail.admin.rich_text.converters.html_to_contentstate import BlockElementHandler
-from wagtail.admin.rich_text.editors.draftail import features as draftail_features
 from wagtail.rich_text import LinkHandler
 from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 
 from achievements.models import Achievement, AchievementTag
-from blog.models import Author
-from novice.models import NovicaTag
 
 from .models import Infopush, Objava
 
@@ -40,22 +36,6 @@ def header_with_name(props):
         DOM.create_element("a", {"id": slugify(text), "class": "anchor"}),
         props["children"],
     )
-
-
-class NovicaTagAdmin(ModelAdmin):
-    model = NovicaTag
-    menu_label = "Oznake novic"
-    menu_order = 200
-    add_to_settings_menu = False
-    exclude_from_explorer = False
-
-
-class AuthorsAdmin(ModelAdmin):
-    model = Author
-    menu_label = "Blog avtorji"
-    menu_order = 300
-    add_to_settings_menu = False
-    exclude_from_explorer = False
 
 
 class AchievementTagsAdmin(ModelAdmin):
@@ -129,8 +109,6 @@ def register_extra_rich_text_features(features):
     )
 
 
-modeladmin_register(NovicaTagAdmin)
-modeladmin_register(AuthorsAdmin)
 modeladmin_register(AchievementTagsAdmin)
 modeladmin_register(AchievementsAdmin)
 modeladmin_register(ObjavaAdmin)
