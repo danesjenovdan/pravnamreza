@@ -38,41 +38,41 @@
 
 {% infopush %}
 
-<div class="row row-light px-4 px-lg-0">
+<div class="row row-white px-4 px-lg-0">
   <div class="container">
-    <div class="row my-4 my-lg-5">
+    <div class="row mb-4 mb-lg-5">
       <div class="col">
         <div class="archive-title">
           <h1>{{ page.blog_section_title }}</h1>
           {% if page.blog_section_archive_link %}
-          <h5><a href="{% pageurl page.blog_section_archive_link %}" class="archive-link">{{ page.blog_section_archive_link_title }} >>></a></h5>
+          <h5><a href="{% pageurl page.blog_section_archive_link %}" class="archive-link">{{ page.blog_section_archive_link_title }} <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a></h5>
           {% endif %}
         </div>
       </div>
     </div>
+    <div class="blog-grid">
     {% for blogpost in blogposts %}
-    <div class="row blog-preview mb-lg-5">
-      <div class="col-lg-4 mb-2">
-        <a class="blog-title" href="{{ blogpost.url }}">
-          {% image blogpost.preview_image width-1100 class="img-fluid" %}
+      <div class="blog-grid-item">
+        <a class="blog-grid-image" href="{{ blogpost.url }}">
+          {% image blogpost.preview_image width-720 class="img-fluid" %}
         </a>
-      </div>
-      <div class="col-lg-8">
-        <a class="blog-title" href="{{ blogpost.url }}"><h1>{{ blogpost.title }}</h1></a>
-        {% if blogpost.authors %}
-        <div class="blog-author">
-          <span>{{ blogpost.authors_list_string }}</span>
-        </div>
-        {% endif %}
-        <div class="blog-subtitle">
-          <time>{{ blogpost.date|date:'d. m. Y' }}</time>
-        </div>
-        <div class="mt-3">
-          {{ blogpost.preview_text|safe }}
+        <div class="blog-grid-content">
+          <h3 class="blog-grid-title"><a href="{{ blogpost.url }}">{{ blogpost.title }}</a></h3>
+          <div class="blog-grid-subtitle">
+            {% if blogpost.tag %}<span>{{ blogpost.tag }} | </span>{% endif %}
+            {% if blogpost.authors %}<span>{{ blogpost.authors_list_string }} | </span>{% endif %}
+            <span>{{ blogpost.date|date:'d. m. Y' }}</span>
+          </div>
+          <div class="blog-grid-text">
+            {{ blogpost.preview_text|richtext }}
+          </div>
         </div>
       </div>
-    </div>
     {% endfor %}
+    </div>
+    <div class="text-center">
+      <a href="{% pageurl page.blog_section_archive_link %}" class="blog-grid-more-button">{{ page.blog_section_archive_link_title }} <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
+    </div>
   </div>
 </div>
 

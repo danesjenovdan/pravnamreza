@@ -343,11 +343,13 @@ class HomePage(Page):
     parent_page_types = []
 
     def get_context(self, request):
-        # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        blogposts = BlogPage.objects.all().live().order_by("-first_published_at")[:1]
+        blogposts = (
+            BlogPage.objects.all()
+            .live()
+            .order_by("-date", "-first_published_at", "id")[:6]
+        )
         context["blogposts"] = blogposts
-        # context['pojavljanja'] = pojavljanja
         return context
 
     class Meta:
