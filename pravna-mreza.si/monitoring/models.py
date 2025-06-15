@@ -30,11 +30,7 @@ class MonitoringPage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        if self.get_parent().specific.monitor_archive_link:
-            monitoring_archive = self.get_parent().specific.monitor_archive_link.url
-        else:
-            monitoring_archive = "/"
-        context["monitoring_archive"] = monitoring_archive
+        context["monitoring_archive"] = self.get_parent().url
         return context
 
     class Meta:

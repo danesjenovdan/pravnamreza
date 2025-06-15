@@ -63,11 +63,7 @@ class ProjectPage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        try:
-            projects_archive = ProjectsArchivePage.objects.first().url
-        except:
-            projects_archive = "/"
-        context["projects_archive"] = projects_archive
+        context["projects_archive"] = self.get_parent().url
         return context
 
     class Meta:
