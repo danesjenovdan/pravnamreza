@@ -93,6 +93,12 @@ class BlogPage(Page):
         related_name="+",
         verbose_name="OG slika",
     )
+    # If this is a migrated page, store the old path for reference
+    # This is useful for redirects or if we need to reference the old page
+    old_migrated_page_path = models.TextField(
+        null=True,
+        blank=True,
+    )
 
     @property
     def authors(self):

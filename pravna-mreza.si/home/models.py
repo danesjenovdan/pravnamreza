@@ -521,11 +521,3 @@ class NewsletterPage(Page):
     class Meta:
         verbose_name = "Urejanje naročnine"
         verbose_name_plural = "Urejanja naročnin"
-
-
-class MaintenancePage(Page):
-    text = models.TextField(verbose_name="Besedilo", blank=True)
-
-    content_panels = Page.content_panels + [
-        FieldPanel("text"),
-    ]
