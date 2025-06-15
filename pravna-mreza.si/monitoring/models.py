@@ -1,4 +1,4 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -84,19 +84,7 @@ class MonitoringArchivePage(Page):
         all_monitoring = MonitoringPage.objects.all().live().order_by("-date")
         # Paginate all monitoring pages
         paginator = Paginator(all_monitoring, 10)
-        # Try to get the ?page=x value
-        page = request.GET.get("page")
-        try:
-            # If the page exists and the ?page=x is an int
-            monitoring_pages = paginator.page(page)
-        except PageNotAnInteger:
-            # If the ?page=x is not an int; show the first page
-            monitoring_pages = paginator.page(1)
-        except EmptyPage:
-            # If the ?page=x is out of range (too high most likely)
-            # Then return the last page
-            monitoring_pages = paginator.page(paginator.num_pages)
-        context["monitoring_pages"] = monitoring_pages
+        context["monitoring_pages"] = paginator.get_page(request.GET.get("page"))
         return context
 
     class Meta:

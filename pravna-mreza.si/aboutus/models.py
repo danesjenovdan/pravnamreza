@@ -1,4 +1,4 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -38,14 +38,7 @@ class AboutUsPage(Page):
         context = super().get_context(request)
         all_publications = Publication.objects.all().order_by("-date")
         paginator = Paginator(all_publications, 10)
-        page = request.GET.get("page")
-        try:
-            publications = paginator.page(page)
-        except PageNotAnInteger:
-            publications = paginator.page(1)
-        except EmptyPage:
-            publications = paginator.page(paginator.num_pages)
-        context["publications"] = publications
+        context["publications"] = paginator.get_page(request.GET.get("page"))
         return context
 
     class Meta:

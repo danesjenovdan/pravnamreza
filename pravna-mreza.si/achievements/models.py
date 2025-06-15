@@ -1,8 +1,6 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
-from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
-from wagtail.fields import RichTextField, StreamField
+from wagtail.fields import StreamField
 from wagtail.models import Page
 
 from home.models import EmailLinkBlock, ExternalLinkBlock, PageLinkBlock

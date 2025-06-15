@@ -1,4 +1,4 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail import blocks
@@ -193,19 +193,7 @@ class BlogArchivePage(Page):
         all_blogposts = BlogPage.objects.all().live().order_by("-first_published_at")
         # Paginate all novice by 2 per page
         paginator = Paginator(all_blogposts, 10)
-        # Try to get the ?page=x value
-        page = request.GET.get("page")
-        try:
-            # If the page exists and the ?page=x is an int
-            blogposts = paginator.page(page)
-        except PageNotAnInteger:
-            # If the ?page=x is not an int; show the first page
-            blogposts = paginator.page(1)
-        except EmptyPage:
-            # If the ?page=x is out of range (too high most likely)
-            # Then return the last page
-            blogposts = paginator.page(paginator.num_pages)
-        context["blogposts"] = blogposts
+        context["blogposts"] = paginator.get_page(request.GET.get("page"))
         return context
 
     class Meta:

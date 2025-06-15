@@ -1,4 +1,3 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
@@ -112,14 +111,7 @@ class ProjectsArchivePage(Page):
     #     # all_projects = ProjectPage.objects.all().live().order_by("-first_published_at")
     #     all_projects = self.projects
     #     paginator = Paginator(all_projects, 10)
-    #     page = request.GET.get("page")
-    #     try:
-    #         projects = paginator.page(page)
-    #     except PageNotAnInteger:
-    #         projects = paginator.page(1)
-    #     except EmptyPage:
-    #         projects = paginator.page(paginator.num_pages)
-    #     context["projects"] = projects
+    #     context["projects"] = paginator.get_page(request.GET.get("page"))
     #     return context
 
     class Meta:

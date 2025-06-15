@@ -1,4 +1,4 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -97,19 +97,7 @@ class NovicaArchivePage(Page):
         vse_novice = NovicaPage.objects.all().live().order_by("-date")
         # Paginate all novice by 2 per page
         paginator = Paginator(vse_novice, 10)
-        # Try to get the ?page=x value
-        page = request.GET.get("page")
-        try:
-            # If the page exists and the ?page=x is an int
-            novice = paginator.page(page)
-        except PageNotAnInteger:
-            # If the ?page=x is not an int; show the first page
-            novice = paginator.page(1)
-        except EmptyPage:
-            # If the ?page=x is out of range (too high most likely)
-            # Then return the last page
-            novice = paginator.page(paginator.num_pages)
-        context["novice"] = novice
+        context["novice"] = paginator.get_page(request.GET.get("page"))
         return context
 
     class Meta:
