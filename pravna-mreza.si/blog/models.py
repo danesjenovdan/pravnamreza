@@ -186,7 +186,6 @@ class BlogArchivePage(Page):
         context = super().get_context(request)
         # Get all blogposts
         all_blogposts = BlogPage.objects.all().live().order_by("-first_published_at")
-        # Paginate all novice by 2 per page
         paginator = Paginator(all_blogposts, 10)
         context["blogposts"] = paginator.get_page(request.GET.get("page"))
         return context

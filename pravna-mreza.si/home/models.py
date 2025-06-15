@@ -8,7 +8,6 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 
 from blog.models import BlogPage
-from novice.models import NovicaPage
 
 
 class ExternalLinkBlock(blocks.StructBlock):
@@ -309,20 +308,6 @@ class HomePage(Page):
         null=True,
         blank=True,
     )
-    news_section_title = models.TextField(
-        verbose_name="Naslov sekcije z novicami", blank=True
-    )
-    news_section_archive_link_title = models.TextField(
-        verbose_name="Ime povezave do seznama novic", blank=True
-    )
-    news_section_archive_link = models.ForeignKey(
-        "wagtailcore.Page",
-        null=True,
-        blank=True,
-        related_name="+",
-        on_delete=models.SET_NULL,
-        verbose_name="Povezava do seznama novic",
-    )
     blog_section_title = models.TextField(
         verbose_name="Naslov blog sekcije", blank=True
     )
@@ -349,9 +334,6 @@ class HomePage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("intro_text", classname="full"),
         FieldPanel("intro_boxes"),
-        FieldPanel("news_section_title"),
-        FieldPanel("news_section_archive_link_title"),
-        FieldPanel("news_section_archive_link"),
         FieldPanel("blog_section_title"),
         FieldPanel("blog_section_archive_link"),
         FieldPanel("blog_section_archive_link_title"),
@@ -363,9 +345,7 @@ class HomePage(Page):
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        novice = NovicaPage.objects.all().live().order_by("-date")[:3]
         blogposts = BlogPage.objects.all().live().order_by("-first_published_at")[:1]
-        context["novice"] = novice
         context["blogposts"] = blogposts
         # context['pojavljanja'] = pojavljanja
         return context
