@@ -59,10 +59,9 @@ class Command(BaseCommand):
                 self.stdout.write(f"BlogPage already in place: {title_print}")
             elif blog_page.live:
                 self.stdout.write(f"Moving BlogPage: {title_print}")
-                blog_page.move(archive_page, pos="last-child")
-                blog_page.refresh_from_db()
                 blog_page.old_migrated_page_path = page_path
-                blog_page.save_revision().publish()
+                blog_page.save()
+                blog_page.move(archive_page, pos="last-child")
 
         BlogPage.objects.filter(live=False).delete()
 
@@ -153,10 +152,9 @@ class Command(BaseCommand):
                 self.stdout.write(f"MonitoringPage already in place: {title_print}")
             elif monitoring_page.live:
                 self.stdout.write(f"Moving MonitoringPage: {title_print}")
-                monitoring_page.move(archive_page, pos="last-child")
-                monitoring_page.refresh_from_db()
                 monitoring_page.old_migrated_page_path = page_path
-                monitoring_page.save_revision().publish()
+                monitoring_page.save()
+                monitoring_page.move(archive_page, pos="last-child")
 
         MonitoringPage.objects.filter(live=False).delete()
 

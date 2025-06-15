@@ -26,6 +26,8 @@ class MonitoringPage(Page):
         FieldPanel("body"),
     ]
 
+    parent_page_types = ["MonitoringArchivePage"]
+
     def get_context(self, request):
         context = super().get_context(request)
         if self.get_parent().specific.monitor_archive_link:
@@ -71,6 +73,9 @@ class MonitoringArchivePage(Page):
         FieldPanel("intro_text"),
         FieldPanel("link"),
     ]
+
+    parent_page_types = ["home.HomePage"]
+    subpage_types = ["home.GenericPage", "MonitoringPage"]
 
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron

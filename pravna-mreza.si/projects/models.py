@@ -60,6 +60,8 @@ class ProjectPage(Page):
         FieldPanel("meta_image"),
     ]
 
+    parent_page_types = ["ProjectsArchivePage"]
+
     def get_context(self, request):
         context = super().get_context(request)
         try:
@@ -100,6 +102,9 @@ class ProjectsArchivePage(Page):
         FieldPanel("headline_image"),
         FieldPanel("projects"),
     ]
+
+    parent_page_types = ["home.HomePage"]
+    subpage_types = ["home.GenericPage", "ProjectPage"]
 
     # def get_context(self, request):
     #     # Update context to include only published posts, ordered by reverse-chron

@@ -53,6 +53,8 @@ class NovicaPage(Page):
         FieldPanel("meta_image"),
     ]
 
+    parent_page_types = []
+
     def get_context(self, request):
         context = super().get_context(request)
         try:
@@ -85,6 +87,8 @@ class NovicaArchivePage(Page):
         FieldPanel("headline_second"),
         FieldPanel("headline_image"),
     ]
+
+    parent_page_types = []
 
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
