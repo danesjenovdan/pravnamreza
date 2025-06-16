@@ -5,109 +5,51 @@
 
 {% block page_body %}
 
-<div class="row row-light-purple headline-blog">
+<div class="row row-light-purple headline headline--blog">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 d-flex align-items-center justify-content-center justify-content-lg-start">
-                <h1>
-                    <div class="spaced serif">{{ page.headline_first }}</div>
-                    <div class="spaced">{{ page.headline_second }}</div>
-                </h1>
+            <div class="col-lg-7">
+                <h1 class="headline-title">{{ page.title }}</h1>
             </div>
-            <div class="col-lg-6 d-flex align-items-center justify-content-end">
+            <div class="col-lg-5">
                 {% image page.headline_image width-1100 class="img-fluid" %}
             </div>
         </div>
     </div>
 </div>
 
-<div class="row row-white px-4 px-lg-0">
+{% if page.projects %}
+<div class="row row-white project-list">
     <div class="container">
-        {% for project in page.projects %}
-        <div class="row news-preview mb-lg-5">
-            <div class="col-lg-8">
-                <div>
-                    <a class="news-title" href="{{ project.value.project.url }}"><h1>{{ project.value.project.title }}</h1></a>
-                </div>
-                <div class="mt-3 news-desc">
-                    {{ project.value.project.preview_text|safe }}
-                    <a class="{{ project.value.project.url }}" href="{{ project.value.project.url }}">VEČ &gt;&gt;&gt;</a>
+        <div class="row mb-3 pb-3">
+            <div class="col mb-1">
+                <div class="archive-title">
+                    <h2>{{ page.projects_title }}</h2>
                 </div>
             </div>
         </div>
-        <hr class="short">
+        {% for project in page.projects %}
+            {% include "projects/project_item.html" %}
         {% endfor %}
     </div>
 </div>
+{% endif %}
 
-<div class="row">
+{% if page.archived_projects %}
+<div class="row row-white archived-project-list">
     <div class="container">
-        {% if projects.paginator.num_pages > 1 %}
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <div class="d-flex">
-                        {% if projects.has_previous %}
-                        <div class="page-num">
-                            <a href="?page={{ projects.previous_page_number }}">
-                                <span><<<</span>
-                            </a>
-                        </div>
-                        {% endif %}
-
-                        {% if projects.number > 2 %}
-                        <div class="page-num">
-                            <a href="?page=1">1</a>
-                        </div>
-                        {% endif %}
-
-                        {% if projects.number > 3 %}
-                        <div class="page-num">
-                            <span>...</span>
-                        </div>
-                        {% endif %}
-
-                        {% if projects.number|add:"-1" > 0 %}
-                        <div class="page-num">
-                            <a href="?page={{ projects.number|add:"-1" }}">{{ projects.number|add:"-1" }}</a>
-                        </div>
-                        {% endif %}
-
-                        <div class="page-num active">
-                            <a href="?page={{ projects.number }}">{{ projects.number }}</a>
-                        </div>
-
-                        {% if projects.number|add:"1" < projects.paginator.num_pages %}
-                        <div class="page-num">
-                            <a href="?page={{ projects.number|add:"1" }}">{{ projects.number|add:"1" }}</a>
-                        </div>
-                        {% endif %}
-
-                        {% if projects.paginator.num_pages > projects.number|add:"2" %}
-                        <div class="page-num">
-                            <span>...</span>
-                        </div>
-                        {% endif %}
-
-                        {% if projects.number < projects.paginator.num_pages %}
-                        <div class="page-num">
-                            <a href="?page={{ projects.paginator.num_pages }}">
-                            {{ projects.paginator.num_pages }}
-                            </a>
-                        </div>
-                        {% endif %}
-
-                        {% if projects.has_next %}
-                        <div class="page-num">
-                            <a href="?page={{ projects.next_page_number }}">
-                                <span>&gt;&gt;&gt;</span>
-                            </a>
-                        </div>
-                        {% endif %}
-                    </div>
+        <div class="row mb-3 pb-3">
+            <div class="col mb-1">
+                <div class="archive-title">
+                    <h1>{{ page.archived_projects_title }}</h1>
                 </div>
             </div>
-        {% endif %}
+        </div>
+        {% for project in page.archived_projects %}
+            {% include "projects/project_item.html" %}
+        {% endfor %}
     </div>
 </div>
+{% endif %}
 
 {% endblock page_body %}

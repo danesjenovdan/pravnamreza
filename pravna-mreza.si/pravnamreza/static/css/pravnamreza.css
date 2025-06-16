@@ -113,7 +113,8 @@ h2 .spaced {
   border-bottom: 1px solid #17093a;
 }
 
-.archive-title h1 {
+.archive-title h1,
+.archive-title h2 {
   margin: 0;
   color: #17093a;
   font-family: var(--font-family-serif);
@@ -130,7 +131,8 @@ h2 .spaced {
 }
 
 @media (max-width: 991.98px) {
-  .archive-title h1 {
+  .archive-title h1,
+  .archive-title h2 {
     font-size: 28px;
   }
 
@@ -1624,4 +1626,91 @@ header .navbar .nav-item a.nav-link.active {
   text-align: right;
   font-family: var(--font-family-sans-serif);
   font-size: 14px;
+}
+
+/* new project list */
+.project-item {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 2px solid #D8D1E9;
+}
+
+.project-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.project-item .project-item-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 360 / 245;
+  object-fit: cover;
+  outline: 1px solid red;
+}
+
+.project-item .project-item-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-family: var(--font-family-sans-serif);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #3A1791;
+  text-transform: none;
+}
+
+.project-item .project-item-title a {
+  color: inherit;
+}
+
+.project-item .project-item-text,
+.project-item .project-item-text p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.project-item .project-item-text p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+}
+
+.project-item .project-item-text p:not(:first-child) {
+  display: none;
+}
+
+.project-item .project-item-text svg {
+  width: 2rem;
+  height: 1.6667rem;
+  color: #3A1791;
+}
+
+.archived-project-list .project-item .project-item-image {
+  opacity: 0.5;
+  filter: grayscale(50%);
+}
+
+@media (max-width: 991.98px) {
+  .project-item .project-item-image {
+    margin-bottom: 1rem;
+  }
+
+  .project-item .project-item-title {
+    font-size: 24px;
+  }
+
+  .project-item .project-item-text,
+  .project-item .project-item-text p {
+    font-size: 16px;
+  }
+
+  .project-item .project-item-text svg {
+    width: 1.5rem;
+    height: 1.25rem;
+  }
 }

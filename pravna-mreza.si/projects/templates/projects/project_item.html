@@ -1,0 +1,18 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="project-item">
+    <div class="row">
+        <div class="col-12 col-md-4">
+            {% image project.value.project.preview_image width-720 class="img-fluid project-item-image" %}
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="d-flex flex-column justify-content-center h-100">
+                <h3 class="project-item-title"><a href="{{ project.value.project.url }}">{{ project.value.project.title }}</a></h3>
+                <div class="project-item-text">
+                    {{ project.value.project.preview_text|richtext }}
+                    <a href="{{ project.value.project.url }}" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
