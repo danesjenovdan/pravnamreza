@@ -1,0 +1,18 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="blog-grid-item">
+  <a class="blog-grid-image" href="{{ item.url }}" tabindex="-1">
+    {% image item.preview_image width-720 class="img-fluid" %}
+  </a>
+  <div class="blog-grid-content">
+    <h3 class="blog-grid-title"><a href="{{ item.url }}">{{ item.title }}</a></h3>
+    <div class="blog-grid-subtitle">
+      {% if item.tag %}<span>{{ item.tag }} | </span>{% endif %}
+      {% if item.authors %}<span>{{ item.authors_list_string }} | </span>{% endif %}
+      <span>{{ item.date|date:'d. m. Y' }}</span>
+    </div>
+    <div class="blog-grid-text">
+      {{ item.preview_text|richtext }}
+    </div>
+  </div>
+</div>

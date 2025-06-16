@@ -155,14 +155,6 @@ class BlogAuthorRelationship(models.Model):
 
 
 class BlogArchivePage(Page):
-    headline_first = models.TextField(
-        blank=True,
-        verbose_name="Naslovnica prvi del",
-    )
-    headline_second = models.TextField(
-        blank=True,
-        verbose_name="Naslovnica drugi del",
-    )
     headline_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -173,8 +165,6 @@ class BlogArchivePage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("headline_first"),
-        FieldPanel("headline_second"),
         FieldPanel("headline_image"),
     ]
 
@@ -182,12 +172,14 @@ class BlogArchivePage(Page):
     subpage_types = ["home.GenericPage", "BlogPage"]
 
     def get_context(self, request):
-        # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        # Get all blogposts
-        all_blogposts = BlogPage.objects.all().live().order_by("-first_published_at")
-        paginator = Paginator(all_blogposts, 10)
-        context["blogposts"] = paginator.get_page(request.GET.get("page"))
+        all_blogposts = (
+            BlogPage.objects.all().live().order_by("-date", "-first_published_at", "id")
+        )
+        blogposts = all_blogposts[:12]
+        context["blogposts"] = blogposts
+        context["blogposts_shown"] = len(blogposts)
+        context["blogposts_total"] = all_blogposts.count()
         return context
 
     class Meta:

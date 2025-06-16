@@ -1305,35 +1305,51 @@ header .navbar .nav-item a.nav-link.active {
 }
 
 .headline {
+  position: relative;
   margin-top: 106px;
   padding-top: 78px;
   padding-bottom: 122px;
-  min-height: 265px;
   display: flex;
   align-items: center;
 }
 
-.headline-blog {
-  margin-top: 98px;
-  padding-top: 60px;
-  padding-bottom: 60px;
+.headline--blog {
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
 
-.donation-blog {
-  margin-top: 98px;
-}
-
-.headline-blog h2 {
+.headline--blog .headline-title {
+  font-family: var(--font-family-serif);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 48px;
+  color: #17093A;
   text-transform: none;
-  font-size: 42px;
-  line-height: 48px;
 }
 
-.headline-blog p {
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 1.5;
-  padding-top: 10px;
+.headline--blog img {
+  position: absolute;
+  top: -60px;
+  bottom: -115px;
+  display: block;
+  width: auto;
+  height: auto;
+  outline: 1px solid red;
+}
+
+@media (max-width: 991.98px) {
+  .headline--blog .headline-title {
+    text-align: center;
+  }
+
+  .headline--blog img {
+    position: static;
+    max-width: 360px;
+    width: min(85%, 360px);
+    margin-inline: auto;
+    margin-top: 20px;
+    margin-bottom: -115px;
+  }
 }
 
 .headline p {
@@ -1345,29 +1361,18 @@ header .navbar .nav-item a.nav-link.active {
   text-align: center;
 }
 
-@media (min-width: 992px) {
-  .headline-text {
-    padding-right: 70px;
+@media (max-width: 575.98px) {
+  .headline {
+    padding-top: 42px;
   }
-  .heading-image {
-    position: absolute;
-    top: -100px;
-    bottom: -100px;
-    display: flex;
-    align-items: center;
-  }
-}
 
-@media (max-width: 991.98px) {
-  .headline-blog h2 {
-    font-size: 32px;
-    line-height: 36px;
+  .headline--blog .headline-title {
+    font-size: 36px;
+    line-height: 40px;
   }
-  .headline-blog p {
-    font-size: 20px;
-  }
+
   .headline p {
-    font-size: 32px;
+    font-size: 36px;
     line-height: 40px;
   }
 }
@@ -1612,4 +1617,11 @@ header .navbar .nav-item a.nav-link.active {
 .footer-box-support-button:focus-visible {
   outline: 2px solid #3A179180;
   box-shadow: none;
+}
+
+.blog-grid-show-count {
+  margin-top: 25px;
+  text-align: right;
+  font-family: var(--font-family-sans-serif);
+  font-size: 14px;
 }
