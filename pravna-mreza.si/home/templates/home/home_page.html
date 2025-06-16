@@ -5,7 +5,7 @@
 
 {% block page_body %}
 
-<div class="row row-light-purple headline px-4 px-lg-0 position-relative">
+<div class="row row-light-purple headline position-relative">
   <div class="container">
     <div class="row">
       <div class="col-12 headline-text">
@@ -38,10 +38,10 @@
 
 {% infopush %}
 
-<div class="row row-white px-4 px-lg-0">
+<div class="row row-white">
   <div class="container">
-    <div class="row mb-4 mb-lg-5">
-      <div class="col">
+    <div class="row mb-4">
+      <div class="col mb-1">
         <div class="archive-title">
           <h1>{{ page.blog_section_title }}</h1>
           {% if page.blog_section_archive_link %}
@@ -53,7 +53,7 @@
     <div class="blog-grid">
     {% for blogpost in blogposts %}
       <div class="blog-grid-item">
-        <a class="blog-grid-image" href="{{ blogpost.url }}">
+        <a class="blog-grid-image" href="{{ blogpost.url }}" tabindex="-1">
           {% image blogpost.preview_image width-720 class="img-fluid" %}
         </a>
         <div class="blog-grid-content">
@@ -72,32 +72,6 @@
     </div>
     <div class="text-center">
       <a href="{% pageurl page.blog_section_archive_link %}" class="blog-grid-more-button">{{ page.blog_section_archive_link_title }} <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
-    </div>
-  </div>
-</div>
-
-<div class="row row-white">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 mb-4 mb-xl-0">
-        {% include "home/includes/social-media-box.html" %}
-      </div>
-      <div class="col-lg-6">
-        {% include "home/includes/newsletter-box.html" %}
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row row-white">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 my-4 my-xl-0">
-        {% include "home/includes/support-box.html" %}
-      </div>
-      <div class="col-lg-6 my-4 my-xl-0">
-        {% include "home/includes/monitor-box.html" %}
-      </div>
     </div>
   </div>
 </div>

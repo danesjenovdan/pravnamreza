@@ -118,12 +118,6 @@ class NavigationSettings(BaseGenericSetting):
 
 @register_setting()
 class FooterSettings(BaseGenericSetting):
-    footer_text = models.TextField(verbose_name="Besedilo v footerju", blank=True)
-    facebook_link = models.URLField(verbose_name="Facebook URL", blank=True, null=True)
-    twitter_link = models.URLField(verbose_name="Twitter URL", blank=True, null=True)
-    instagram_link = models.URLField(
-        verbose_name="Instagram URL", blank=True, null=True
-    )
     footer_links_left = StreamField(
         [
             ("page_link", PageLinkBlock()),
@@ -144,10 +138,6 @@ class FooterSettings(BaseGenericSetting):
     )
 
     panels = [
-        FieldPanel("footer_text"),
-        FieldPanel("facebook_link"),
-        FieldPanel("twitter_link"),
-        FieldPanel("instagram_link"),
         FieldPanel("footer_links_left"),
         FieldPanel("footer_links_right"),
     ]
@@ -190,6 +180,9 @@ class Newsletter(BaseGenericSetting):
     newsletter_title_part_two = models.TextField(
         verbose_name="Naslov 2. del", blank=True
     )
+    newsletter_email_label = models.TextField(
+        verbose_name="Email naslov oznaka", blank=True
+    )
     newsletter_terms = models.TextField(verbose_name="Novičnik pogoji", blank=True)
     newsletter_success = models.TextField(
         verbose_name="Sporočilo ob uspešni prijavi", blank=True
@@ -201,6 +194,7 @@ class Newsletter(BaseGenericSetting):
     panels = [
         FieldPanel("newsletter_title_part_one"),
         FieldPanel("newsletter_title_part_two"),
+        FieldPanel("newsletter_email_label"),
         FieldPanel("newsletter_terms"),
         FieldPanel("newsletter_success"),
         FieldPanel("newsletter_failure"),

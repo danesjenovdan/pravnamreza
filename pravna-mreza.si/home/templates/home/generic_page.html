@@ -45,31 +45,4 @@
   </div>
 </div>
 
-<div class="row row-white">
-  <div class="container">
-      <div class="row">
-          {% if page.social_media_box %}
-          <div class="col-lg-6 mb-4">
-              {% include "home/includes/social-media-box.html" %}
-          </div>
-          {% endif %}
-          {% if page.newsletter_box %}
-          <div class="col-lg-6 mb-4">
-              {% include "home/includes/newsletter-box.html" %}
-          </div>
-          {% endif %}
-          {% if page.support_box %}
-          <div class="col-lg-6 mb-4">
-              {% include "home/includes/support-box.html" %}
-          </div>
-          {% endif %}
-          {% if page.monitor_box %}
-          <div class="col-lg-6 mb-4">
-              {% include "home/includes/monitor-box.html" %}
-          </div>
-          {% endif %}
-      </div>
-  </div>
-</div>
-
 {% endblock page_body %}
