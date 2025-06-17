@@ -5,16 +5,13 @@
 
 {% block page_body %}
 
-<div class="row row-light-purple headline-blog">
+<div class="row row-light-purple headline headline--blog">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 d-flex align-items-center justify-content-center justify-content-lg-start">
-                <h1>
-                    <div class="spaced serif">{{ page.headline_first }}</div>
-                    <div class="spaced">{{ page.headline_second }}</div>
-                </h1>
+            <div class="col-lg-7">
+                <h1 class="headline-title">{{ page.title }}</h1>
             </div>
-            <div class="col-lg-6 d-flex align-items-center justify-content-end">
+            <div class="col-lg-5">
                 {% image page.headline_image width-1100 class="img-fluid" %}
             </div>
         </div>
@@ -23,50 +20,26 @@
 
 <div class="row row-white">
     <div class="container">
-        {% for mp in publications %}
-        <hr class="short">
-        <article class="row news-preview">
-            <div class="col-12">
-                <div class="ml-lg-4">
-                    <a class="news-title" href="{{ mp.url }}" target="_blank"><h1>{{ mp.title }}</h1></a>
-                    <div class="news-subtitle">
-                        <span>{{ mp.source }}</span> / <time>{{ mp.date|date:'d. m. Y' }}</time>
+        <div class="publications-list">
+            {% for mp in publications %}
+            <article class="row news-preview">
+                <div class="col-12">
+                    <div>
+                        <h2 class="news-title mt-0"><a href="{{ mp.url }}" target="_blank">{{ mp.title }}</a></h2>
+                        <div class="news-subtitle">
+                            <span>{{ mp.source }}</span> | <time>{{ mp.date|date:'d. m. Y' }}</time>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </article>
-        {% endfor %}
-        <hr class="short">
-        {% if publications.paginator.num_pages > 1 %}
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <div class="d-flex">
-                        {% if publications.has_previous %}
-                        <div class="page-num">
-                            <a href="?page={{ publications.previous_page_number }}">
-                                <span><<<</span>
-                            </a>
-                        </div>
-                        {% endif %}
-
-                        {% for page_num in publications.paginator.page_range %}
-                        <div class="page-num {% if page_num == publications.number %} active{% endif %}">
-                            <a href="?page={{ page_num }}">
-                                {{ page_num }}
-                            </a>
-                        </div>
-                        {% endfor %}
-
-                        {% if publications.has_next %}
-                        <div class="page-num">
-                            <a href="?page={{ publications.next_page_number }}">
-                                <span>>>></span>
-                            </a>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+            </article>
+            <hr class="short">
+            {% endfor %}
+        </div>
+        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ publications_shown }}</span> od <span class="total">{{ publications_total }}</span></div>
+        {% if publications_shown < publications_total %}
+        <div class="text-center">
+            <a href="javascript:;" class="blog-grid-more-button">Prikaži več <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(90)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
+        </div>
         {% endif %}
     </div>
 </div>

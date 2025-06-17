@@ -125,6 +125,11 @@ h2 .spaced {
   text-transform: none;
 }
 
+.archive-title-large h1,
+.archive-title-large h2 {
+  font-size: 42px;
+}
+
 .archive-title h5 {
   margin: 0;
   font-size: 18px;
@@ -136,6 +141,11 @@ h2 .spaced {
     font-size: 28px;
   }
 
+  .archive-title-large h1,
+  .archive-title-large h2 {
+    font-size: 36px;
+  }
+
   .archive-title h5 {
     font-size: 16px;
   }
@@ -143,10 +153,10 @@ h2 .spaced {
 
 p, .blog-body li {
   font-family: var(--font-family-sans-serif);
-  font-weight: 300;
+  font-weight: 400;
   color: #17093a;
-  font-size: 20px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 1.4;
 }
 
 @media (max-width: 575.98px) {
@@ -190,7 +200,7 @@ hr.short {
 
 .vertical-line {
   font-family: var(--font-family-sans-serif);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .intro-boxes {
@@ -776,6 +786,8 @@ hr.short {
 /* NEWS LISTING */
 .news-preview h1,
 .blog-preview h1,
+.news-preview h2,
+.blog-preview h2,
 .blog-preview a {
   color: #3a1791;
   font-family: var(--font-family-sans-serif);
@@ -787,15 +799,28 @@ hr.short {
 }
 
 .blog-preview a.achievement-btn {
+  display: inline;
+  align-items: center;
   font-size: 20px;
-  letter-spacing: 2px;
+  line-height: 1.2;
+  letter-spacing: 4%;
 }
 
-.blog-preview h1 {
+.achievement-btn svg {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.25rem;
+  margin-left: 0.6em;
+  margin-top: -0.15em;
+}
+
+.blog-preview h1,
+.blog-preview h2 {
   margin-bottom: 1rem;
 }
 
-.news-preview h1 {
+.news-preview h1,
+.news-preview h2 {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
 }
@@ -813,7 +838,7 @@ hr.short {
 .news-subtitle,
 .blog-subtitle {
   font-family: var(--font-family-sans-serif);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 16px;
   /* line-height: 30px; */
   color: #17093a;
@@ -922,6 +947,8 @@ hr.short {
 @media (max-width: 991.98px) {
   .news-preview h1,
   .blog-preview h1,
+  .news-preview h2,
+  .blog-preview h2,
   .blog-preview a {
     font-size: 24px;
     line-height: 28px;
@@ -941,7 +968,7 @@ hr.short {
 .blog-body p,
 .blog-body li {
   font-size: 18px;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .custom-video-embed {
@@ -1015,6 +1042,10 @@ hr.short {
 
 .achievement-box h3 {
   font-family: var(--font-family-serif);
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  font-style: italic;
   text-transform: none;
   color: #17093a;
 }
@@ -1412,9 +1443,9 @@ header .navbar .nav-item a.nav-link.active {
 .row-block-paragraph ol,
 .row-block-paragraph blockquote {
   font-family: var(--font-family-sans-serif);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 18px;
-  line-height: 1.7;
+  line-height: 1.4;
   color: #17093a;
   margin-bottom: 2rem;
 }
@@ -1713,4 +1744,60 @@ header .navbar .nav-item a.nav-link.active {
     width: 1.5rem;
     height: 1.25rem;
   }
+}
+
+/* large page button links */
+.large-page-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 21px;
+}
+
+@media (max-width: 767.98px) {
+  .large-page-buttons {
+    flex-direction: column;
+  }
+}
+
+.large-page-button {
+  display: inline-flex;
+  gap: 21px;
+  padding: 26px 21px 26px 18px;
+  background: linear-gradient(100.24deg, #ECE6F8 0%, #D3C8EE 100%);
+  border: 1px solid #17093A;
+  color: #3A1791;
+  text-decoration: none;
+}
+
+@media (max-width: 767.98px) {
+  .large-page-button {
+    justify-content: space-between;
+  }
+}
+
+.large-page-button:hover {
+  background: linear-gradient(92.89deg, #3A1791 0.54%, #160444 99.5%);
+  color: #fff;
+  text-decoration: none;
+}
+
+.large-page-button .large-page-button-title {
+  font-family: var(--font-family-sans-serif);
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.large-page-button img {
+  display: block;
+  width: 110px;
+  margin-top: -15px;
+  margin-bottom: -37px;
+  font-size: 8px;
+  outline: 1px solid red;
+}
+
+/* media publications */
+.publications-list hr:last-child {
+  display: none;
 }

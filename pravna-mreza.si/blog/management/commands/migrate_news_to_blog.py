@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 
+from aboutus.models import AboutUsPage
+from achievements.models import AchievementArchivePage
 from blog.models import BlogArchivePage, BlogPage, BlogTag
 from monitoring.models import MonitoringArchivePage, MonitoringPage
 from novice.models import NovicaArchivePage, NovicaPage, NovicaTag
@@ -163,10 +165,40 @@ class Command(BaseCommand):
             ending="\n\n",
         )
 
+    def _migrate_achievement_archive_page_under_about_us(self):
+        self.stdout.write(
+            self.style.WARNING("Migrating AchievementArchivePage under AboutUsPage...")
+        )
+        about_us_page = AboutUsPage.objects.first()
+        if not about_us_page:
+            raise CommandError("No AboutUsPage found.")
+
+        achievement_archive_page = AchievementArchivePage.objects.first()
+        if not achievement_archive_page:
+            raise CommandError("No AchievementArchivePage found.")
+
+        page_url_parts = achievement_archive_page.get_url_parts()
+        page_path = page_url_parts[2] if page_url_parts else None
+
+        title_print = self.style.WARNING(f"{achievement_archive_page.title[:50]}")
+        if achievement_archive_page.get_parent().id == about_us_page.id:
+            self.stdout.write(f"AchievementArchivePage already in place: {title_print}")
+        elif achievement_archive_page.live:
+            self.stdout.write(f"Moving AchievementArchivePage: {title_print}")
+            achievement_archive_page.old_migrated_page_path = page_path
+            achievement_archive_page.save()
+            achievement_archive_page.move(about_us_page, pos="last-child")
+
+        self.stdout.write(
+            self.style.SUCCESS("AchievementArchivePage migrated under AboutUsPage."),
+            ending="\n\n",
+        )
+
     def handle(self, *args, **options):
         self._rename_blog_archive_page()
         self._migrate_news_tags_to_blog_tags()
         self._migrate_blog_pages_under_archive_page()
         self._migrate_news_pages_to_blog_pages()
         self._migrate_monitoring_pages_under_archive_page()
+        self._migrate_achievement_archive_page_under_about_us()
         self.stdout.write(self.style.SUCCESS("Migration complete."))
