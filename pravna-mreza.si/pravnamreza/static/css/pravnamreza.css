@@ -483,7 +483,7 @@ hr.short {
   font-size: 42px;
   font-weight: 800;
   color: #160444;
-  letter-spacing: 4px;
+  letter-spacing: 4%;
   line-height: 1;
   margin-bottom: 0;
   margin-top: 0;
@@ -524,6 +524,7 @@ hr.short {
 
 .square.square-light-purple h3:last-of-type {
   font-family: var(--font-family-sans-serif);
+  color: #3A1791;
 }
 
 .square.square-light-purple .support-btn {
@@ -1231,7 +1232,7 @@ footer .footer-box-support-text,
 footer .footer-box-support-text p {
   font-weight: 400;
   font-size: 18px;
-  line-height: 1.2;
+  line-height: 1.4;
   letter-spacing: 4%;
 }
 
@@ -1329,6 +1330,7 @@ header .navbar .nav-item a.nav-link.active {
 
 header .navbar .nav-item a.nav-link.active {
   background: linear-gradient(100.24deg, #ECE6F8 0%, #D3C8EE 100%);
+  color: #160444;
 }
 
 .headline {

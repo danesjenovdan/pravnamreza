@@ -352,8 +352,6 @@ class HomePage(Page):
 
 
 class GenericPage(Page):
-    headline_first = models.TextField(verbose_name="Naslovnica prvi del", blank=True)
-    headline_second = models.TextField(verbose_name="Naslovnica drugi del", blank=True)
     headline_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -376,8 +374,6 @@ class GenericPage(Page):
     monitor_box = models.BooleanField(default=False, verbose_name="Škatla prispevaj")
 
     content_panels = Page.content_panels + [
-        FieldPanel("headline_first"),
-        FieldPanel("headline_second"),
         FieldPanel("headline_image"),
         FieldPanel("body"),
         FieldPanel("monitor_box"),
