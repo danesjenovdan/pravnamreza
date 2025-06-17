@@ -12,6 +12,9 @@ urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
+    path("", include("blog.urls")),
+    path("", include("mediapublications.urls")),
+    path("", include("monitoring.urls")),
 ]
 
 if settings.DEBUG:

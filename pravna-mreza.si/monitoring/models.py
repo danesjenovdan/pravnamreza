@@ -1,4 +1,3 @@
-from django.core.paginator import Paginator
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -6,6 +5,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
 from home.models import EmailLinkBlock, ExternalLinkBlock, PageLinkBlock
+from home.pagination import paginate_limit_offset
 
 
 class MonitoringPage(Page):
@@ -76,10 +76,9 @@ class MonitoringArchivePage(Page):
             .live()
             .order_by("-date", "-first_published_at", "id")
         )
-        monitoring_pages = all_monitoring_pages[:12]
-        context["monitoring_pages"] = monitoring_pages
-        context["monitoring_pages_shown"] = len(monitoring_pages)
-        context["monitoring_pages_total"] = all_monitoring_pages.count()
+        context["monitoring_pages"] = paginate_limit_offset(
+            all_monitoring_pages, limit=12, offset=0
+        )
         return context
 
     class Meta:

@@ -1,4 +1,3 @@
-from django.core.paginator import Paginator
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -80,16 +79,6 @@ class NovicaArchivePage(Page):
     ]
 
     parent_page_types = []
-
-    def get_context(self, request):
-        # Update context to include only published posts, ordered by reverse-chron
-        context = super().get_context(request)
-        # Get all novice
-        vse_novice = NovicaPage.objects.all().live().order_by("-date")
-        # Paginate all novice by 2 per page
-        paginator = Paginator(vse_novice, 10)
-        context["novice"] = paginator.get_page(request.GET.get("page"))
-        return context
 
     class Meta:
         verbose_name = "Seznam novic"

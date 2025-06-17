@@ -19,24 +19,14 @@
 </div>
 
 <div class="row row-white">
-    <div class="container">
+    <div class="container" data-load-more-container=".publications-list" data-load-more-url="{% url 'media_publications_paged_view' %}">
         <div class="publications-list">
-            {% for mp in publications %}
-            <article class="row news-preview">
-                <div class="col-12">
-                    <div>
-                        <h2 class="news-title mt-0"><a href="{{ mp.url }}" target="_blank">{{ mp.title }}</a></h2>
-                        <div class="news-subtitle">
-                            <span>{{ mp.source }}</span> | <time>{{ mp.date|date:'d. m. Y' }}</time>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            <hr class="short">
-            {% endfor %}
+        {% for mp in publications %}
+            {% include "mediapublications/media_publications_item.html" with item=mp %}
+        {% endfor %}
         </div>
-        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ publications_shown }}</span> od <span class="total">{{ publications_total }}</span></div>
-        {% if publications_shown < publications_total %}
+        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ publications.end_index }}</span> od <span class="total">{{ publications.paginator.count }}</span></div>
+        {% if publications.end_index < publications.paginator.count %}
         <div class="text-center">
             <a href="javascript:;" class="blog-grid-more-button">Prikaži več <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(90)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
         </div>

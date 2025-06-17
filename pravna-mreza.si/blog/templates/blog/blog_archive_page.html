@@ -19,14 +19,14 @@
 </div>
 
 <div class="row row-white">
-    <div class="container">
+    <div class="container" data-load-more-container=".blog-grid" data-load-more-url="{% url 'blog_archive_paged_view' %}">
         <div class="blog-grid">
         {% for blogpost in blogposts %}
             {% include "blog/blog_grid_item.html" with item=blogpost %}
         {% endfor %}
         </div>
-        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ blogposts_shown }}</span> od <span class="total">{{ blogposts_total }}</span></div>
-        {% if blogposts_shown < blogposts_total %}
+        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ blogposts.end_index }}</span> od <span class="total">{{ blogposts.paginator.count }}</span></div>
+        {% if blogposts.end_index < blogposts.paginator.count %}
         <div class="text-center">
             <a href="javascript:;" class="blog-grid-more-button">Prikaži več <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(90)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
         </div>

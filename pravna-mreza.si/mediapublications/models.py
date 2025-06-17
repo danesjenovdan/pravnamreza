@@ -3,6 +3,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.models import Page
 
 from home.models import Publication
+from home.pagination import paginate_limit_offset
 
 
 class MediaPublicationsPage(Page):
@@ -22,10 +23,9 @@ class MediaPublicationsPage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         all_publications = Publication.objects.all().order_by("-date", "id")
-        publications = all_publications[:12]
-        context["publications"] = publications
-        context["publications_shown"] = len(publications)
-        context["publications_total"] = all_publications.count()
+        context["publications"] = paginate_limit_offset(
+            all_publications, limit=12, offset=0
+        )
         return context
 
     class Meta:

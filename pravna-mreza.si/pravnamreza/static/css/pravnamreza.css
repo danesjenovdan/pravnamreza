@@ -1665,7 +1665,18 @@ header .navbar .nav-item a.nav-link.active {
   white-space: nowrap;
 }
 
-.blog-grid-more-button:hover {
+.blog-grid-more-button.loading {
+  opacity: 0.6667;
+  filter: grayscale(50%);
+  cursor: wait;
+}
+
+.blog-grid-more-button.loading:hover {
+  color: #3A1791;
+  text-decoration: none;
+}
+
+.blog-grid-more-button:not(.loading):hover {
   color: #3A1791;
   text-decoration: none;
 }
@@ -1678,7 +1689,7 @@ header .navbar .nav-item a.nav-link.active {
   margin-left: 10px;
 }
 
-.blog-grid-more-button:hover,
+.blog-grid-more-button:not(.loading):hover,
 .footer-box-newsletter-button:hover,
 .footer-box-support-button:hover {
   background: linear-gradient(92.89deg, #3A1791 0.54%, #160444 99.5%);
@@ -1838,7 +1849,7 @@ header .navbar .nav-item a.nav-link.active {
 }
 
 /* media publications */
-.publications-list hr:last-child,
-.monitoring-list hr:last-child {
+.publications-list .media-publication-item:last-child hr,
+.monitoring-list .monitoring-archive-item:last-child hr {
   display: none;
 }

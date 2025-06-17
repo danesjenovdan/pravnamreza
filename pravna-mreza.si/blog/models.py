@@ -1,10 +1,11 @@
-from django.core.paginator import Paginator
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
+
+from home.pagination import paginate_limit_offset
 
 
 class BlogTag(models.Model):
@@ -176,10 +177,7 @@ class BlogArchivePage(Page):
         all_blogposts = (
             BlogPage.objects.all().live().order_by("-date", "-first_published_at", "id")
         )
-        blogposts = all_blogposts[:12]
-        context["blogposts"] = blogposts
-        context["blogposts_shown"] = len(blogposts)
-        context["blogposts_total"] = all_blogposts.count()
+        context["blogposts"] = paginate_limit_offset(all_blogposts, limit=12, offset=0)
         return context
 
     class Meta:

@@ -37,7 +37,7 @@
 </div>
 
 <div class="row row-light py-5 mb-0">
-    <div class="container my-lg-5">
+    <div class="container my-lg-5" data-load-more-container=".monitoring-list" data-load-more-url="{% url 'monitoring_archive_paged_view' %}">
         <div class="row mb-5">
             <div class="col">
               <div class="archive-title archive-title-large">
@@ -46,25 +46,12 @@
             </div>
         </div>
         <div class="monitoring-list">
-            {% for monitoring_page in monitoring_pages %}
-            <div class="row blog-preview">
-                <div class="col-lg-8">
-                    <a class="blog-title" href="{{ monitoring_page.url }}">
-                        <h1 class="mb-0">{{ monitoring_page.title }}</h1>
-                    </a>
-                    <div class="mb-3">
-                        <time class="blog-subtitle">{{ monitoring_page.date|date:'d. m. Y' }}</time>
-                    </div>
-                    <div>
-                        {{ monitoring_page.preview_text|richtext }}
-                    </div>
-                </div>
-            </div>
-            <hr class="short mb-5">
-            {% endfor %}
+        {% for mp in monitoring_pages %}
+            {% include "monitoring/monitoring_archive_item.html" with item=mp %}
+        {% endfor %}
         </div>
-        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ monitoring_pages_shown }}</span> od <span class="total">{{ monitoring_pages_total }}</span></div>
-        {% if monitoring_pages_shown < monitoring_pages_total %}
+        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ monitoring_pages.end_index }}</span> od <span class="total">{{ monitoring_pages.paginator.count }}</span></div>
+        {% if monitoring_pages.end_index < monitoring_pages.paginator.count %}
         <div class="text-center">
             <a href="javascript:;" class="blog-grid-more-button">Prikaži več <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(90)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
         </div>
