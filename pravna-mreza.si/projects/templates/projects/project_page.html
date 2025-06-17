@@ -13,7 +13,7 @@
           {{ page.title }}
         </h2>
         <div>
-          {{ page.intro_text|safe }}
+          {{ page.intro_text|richtext }}
         </div>
       </div>
       <div class="col-lg-6 d-flex align-items-center justify-content-end">
@@ -42,7 +42,7 @@
             <div class="container">
               <div class="row">
                 <div class="col">
-                  {{ block.value|safe }}
+                  {{ block.value|richtext }}
                 </div>
               </div>
             </div>

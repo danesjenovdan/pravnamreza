@@ -1394,6 +1394,10 @@ header .navbar .nav-item a.nav-link.active {
   text-align: center;
 }
 
+.headline .headline-text p:last-child {
+  margin-bottom: 0;
+}
+
 @media (max-width: 575.98px) {
   .headline {
     padding-top: 42px;

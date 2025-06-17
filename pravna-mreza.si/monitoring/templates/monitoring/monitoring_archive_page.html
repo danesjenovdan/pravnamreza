@@ -25,7 +25,7 @@
     <div class="container">
         <div class="row">
             <div class="col monitoring-intro">
-                {{ page.intro_text|safe }}
+                {{ page.intro_text|richtext }}
                 {% for link in page.link %}
                 <div>
                     <a class="btn monitoring-btn mt-4"
@@ -58,7 +58,7 @@
                     <time class="blog-subtitle">{{ monitoring_page.date|date:'d. m. Y' }}</time>
                 </div>
                 <div>
-                    {{ monitoring_page.preview_text|safe }}
+                    {{ monitoring_page.preview_text|richtext }}
                 </div>
             </div>
         </div>

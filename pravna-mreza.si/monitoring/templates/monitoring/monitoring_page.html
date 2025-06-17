@@ -16,7 +16,7 @@
           <time class="blog-subtitle d-block">{{ page.date|date:'d. m. Y' }}</time>
         </div>
         <div>
-          {{ page.intro_text|safe }}
+          {{ page.intro_text|richtext }}
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
           <div class="container">
             <div class="row">
               <div class="col">
-                {{ block.value|safe }}
+                {{ block.value|richtext }}
               </div>
             </div>
           </div>
