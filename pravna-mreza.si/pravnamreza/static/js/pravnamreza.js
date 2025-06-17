@@ -70,7 +70,7 @@ $(document).ready(function() {
     console.log('Subscribing se začne');
     event.preventDefault();
     if ($('#newsletter-terms').is(':checked')) {
-      $('#newsletter-btn').html('Pošiljanje...');
+      // $('#newsletter-btn').html('Pošiljanje...');
       // reset form
       $('.newsletter-checkbox-label').css({ color: 'white' });
       $('#newsletter-success-message').css('display', 'none');
@@ -96,7 +96,7 @@ $(document).ready(function() {
           throw new Error('Response not ok');
         })
         .then((res) => {
-          $('#newsletter-btn').html('Prijavi se >>>');
+          // $('#newsletter-btn').html('Prijavi se');
           $('#newsletter-email').val('');
           $('#newsletter-terms').prop('checked', false);
           $('#newsletter-btn').prop('disabled', false);
@@ -105,7 +105,7 @@ $(document).ready(function() {
           $('#newsletter-success-message').css('display', 'block');
         })
         .catch((error) => {
-          $('#newsletter-btn').html('Prijavi se >>>');
+          // $('#newsletter-btn').html('Prijavi se');
           $('#newsletter-btn').prop('disabled', false);
           $('#newsletter-email').prop('disabled', false);
           $('#newsletter-terms').prop('disabled', false);

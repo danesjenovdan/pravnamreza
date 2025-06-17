@@ -545,6 +545,8 @@ hr.short {
 }
 
 .square.square-light-purple .support-btn {
+  display: inline-flex;
+  align-items: center;
   border: 2px solid #3a1791;
   color: #3a1791;
   font-size: 18px;
@@ -556,6 +558,12 @@ hr.short {
 .square.square-light-purple .support-btn:hover {
   background-color: #3a1791;
   color: white;
+}
+
+.support-btn svg {
+  width: 1.5rem;
+  height: 1.25rem;
+  margin-left: 0.5rem;
 }
 
 /* SQUARE BUTTONS */
@@ -837,6 +845,7 @@ hr.short {
 
 .news-subtitle,
 .blog-subtitle {
+  margin-top: 10px;
   font-family: var(--font-family-sans-serif);
   font-weight: 400;
   font-size: 16px;
@@ -990,16 +999,24 @@ hr.short {
 }
 
 .back-link {
+  display: inline-flex;
+  align-items: center;
   color: #3a1791;
   font-size: 20px;
   font-family: var(--font-family-sans-serif);
   font-weight: 700;
   line-height: 24px;
-  letter-spacing: 2px;
+  letter-spacing: 4%;
 }
 
 .back-link:hover {
   color: #3a1791;
+}
+
+.back-link svg {
+  width: 1.5rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
 }
 
 .monitoring-intro p {
@@ -1013,11 +1030,19 @@ hr.short {
 }
 
 .monitoring-btn {
+  display: inline-flex;
+  align-items: center;
   border: 2px solid #3a1791;
   color: #3a1791;
   font-size: 18px;
   font-weight: 700;
   padding: 1rem 1.5rem;
+}
+
+.monitoring-btn svg {
+  width: 1.5rem;
+  height: 1.25rem;
+  margin-left: 0.5rem;
 }
 
 .monitoring-btn:hover {
@@ -1065,6 +1090,11 @@ hr.short {
   font-weight: 700;
   font-family: var(--font-family-sans-serif);
   text-decoration: none;
+}
+
+.page-num svg {
+  width: 1.5rem;
+  height: 1.25rem;
 }
 
 /* FOOTER */
@@ -1411,6 +1441,46 @@ header .navbar .nav-item a.nav-link.active {
   .headline p {
     font-size: 36px;
     line-height: 40px;
+  }
+}
+
+/* headline blog post */
+.headline-blog {
+  margin-top: 98px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.donation-blog {
+  margin-top: 98px;
+}
+
+.headline-blog h1 {
+  text-transform: none;
+  font-size: 42px;
+  line-height: 48px;
+}
+
+.headline-blog p {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+  padding-top: 10px;
+}
+
+@media (max-width: 991.98px) {
+  .headline-blog h1 {
+    font-size: 32px;
+    line-height: 36px;
+  }
+  .headline-blog p {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .headline-blog {
+    padding-top: 45px;
   }
 }
 

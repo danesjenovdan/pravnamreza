@@ -30,7 +30,7 @@
                 <div>
                     <a class="btn monitoring-btn mt-4"
                         href="{% if link.value.url %}{{ link.value.url }}{% elif link.value.page %}{% pageurl link.value.page %}{% elif link.value.email %}mailto:{{ link.value.email }}{% endif %}">
-                        {{ link.value.name }} &gt;&gt;&gt;
+                        {{ link.value.name }}<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg>
                     </a>
                 </div>
                 {% endfor %}
@@ -76,7 +76,7 @@
                     {% if monitoring_pages.has_previous %}
                     <div class="page-num">
                         <a href="?page={{ monitoring_pages.previous_page_number }}">
-                            <span><<<</span>
+                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(180)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></span>
                         </a>
                     </div>
                     {% endif %}
@@ -126,7 +126,7 @@
                     {% if monitoring_pages.has_next %}
                     <div class="page-num">
                         <a href="?page={{ monitoring_pages.next_page_number }}">
-                            <span>&gt;&gt;&gt;</span>
+                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></span>
                         </a>
                     </div>
                     {% endif %}
