@@ -5,23 +5,20 @@
 
 {% block page_body %}
 
-<div class="row row-light-purple headline-blog">
+<div class="row row-light-purple headline headline--blog">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 d-flex align-items-center justify-content-center justify-content-lg-start">
-                <h1>
-                    <div class="spaced serif">{{ page.headline_first }}</div>
-                    <div class="spaced">{{ page.headline_second }}</div>
-                </h1>
+            <div class="col-lg-7">
+                <h1 class="headline-title">{{ page.title }}</h1>
             </div>
-            <div class="col-lg-6 d-flex align-items-center justify-content-end">
+            <div class="col-lg-5">
                 {% image page.headline_image width-1100 class="img-fluid" %}
             </div>
         </div>
     </div>
 </div>
 
-<div class="row row-white px-4 px-lg-0">
+<div class="row row-white">
     <div class="container">
         <div class="row">
             <div class="col monitoring-intro">
@@ -39,99 +36,37 @@
     </div>
 </div>
 
-<div class="row row-light px-4 px-lg-0 py-5">
+<div class="row row-light py-5 mb-0">
     <div class="container my-lg-5">
         <div class="row mb-5">
             <div class="col">
-              <div class="archive-title">
-                <h1>Poročila</h3>
+              <div class="archive-title archive-title-large">
+                <h2>Poročila</h2>
               </div>
             </div>
         </div>
-        {% for monitoring_page in monitoring_pages %}
-        <div class="row blog-preview">
-            <div class="col-lg-8">
-                <a class="blog-title" href="{{ monitoring_page.url }}">
-                    <h1 class="mb-0">{{ monitoring_page.title }}</h1>
-                </a>
-                <div class="mb-3">
-                    <time class="blog-subtitle">{{ monitoring_page.date|date:'d. m. Y' }}</time>
-                </div>
-                <div>
-                    {{ monitoring_page.preview_text|richtext }}
+        <div class="monitoring-list">
+            {% for monitoring_page in monitoring_pages %}
+            <div class="row blog-preview">
+                <div class="col-lg-8">
+                    <a class="blog-title" href="{{ monitoring_page.url }}">
+                        <h1 class="mb-0">{{ monitoring_page.title }}</h1>
+                    </a>
+                    <div class="mb-3">
+                        <time class="blog-subtitle">{{ monitoring_page.date|date:'d. m. Y' }}</time>
+                    </div>
+                    <div>
+                        {{ monitoring_page.preview_text|richtext }}
+                    </div>
                 </div>
             </div>
+            <hr class="short mb-5">
+            {% endfor %}
         </div>
-        <hr class="short mb-5">
-        {% endfor %}
-    </div>
-</div>
-
-<div class="row">
-    <div class="container">
-        {% if monitoring_pages.paginator.num_pages > 1 %}
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                <div class="d-flex">
-                    {% if monitoring_pages.has_previous %}
-                    <div class="page-num">
-                        <a href="?page={{ monitoring_pages.previous_page_number }}">
-                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(180)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></span>
-                        </a>
-                    </div>
-                    {% endif %}
-
-                    {% if monitoring_pages.number > 2 %}
-                    <div class="page-num">
-                        <a href="?page=1">1</a>
-                    </div>
-                    {% endif %}
-
-                    {% if monitoring_pages.number > 3 %}
-                    <div class="page-num">
-                        <span>...</span>
-                    </div>
-                    {% endif %}
-
-                    {% if monitoring_pages.number|add:"-1" > 0 %}
-                    <div class="page-num">
-                        <a href="?page={{ monitoring_pages.number|add:"-1" }}">{{ monitoring_pages.number|add:"-1" }}</a>
-                    </div>
-                    {% endif %}
-
-                    <div class="page-num active">
-                        <a href="?page={{ monitoring_pages.number }}">{{ monitoring_pages.number }}</a>
-                    </div>
-
-                    {% if monitoring_pages.number|add:"1" < monitoring_pages.paginator.num_pages %}
-                    <div class="page-num">
-                        <a href="?page={{ monitoring_pages.number|add:"1" }}">{{ monitoring_pages.number|add:"1" }}</a>
-                    </div>
-                    {% endif %}
-
-                    {% if monitoring_pages.paginator.num_pages > monitoring_pages.number|add:"2" %}
-                    <div class="page-num">
-                        <span>...</span>
-                    </div>
-                    {% endif %}
-
-                    {% if monitoring_pages.number < monitoring_pages.paginator.num_pages %}
-                    <div class="page-num">
-                        <a href="?page={{ monitoring_pages.paginator.num_pages }}">
-                        {{ monitoring_pages.paginator.num_pages }}
-                        </a>
-                    </div>
-                    {% endif %}
-
-                    {% if monitoring_pages.has_next %}
-                    <div class="page-num">
-                        <a href="?page={{ monitoring_pages.next_page_number }}">
-                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></span>
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
+        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ monitoring_pages_shown }}</span> od <span class="total">{{ monitoring_pages_total }}</span></div>
+        {% if monitoring_pages_shown < monitoring_pages_total %}
+        <div class="text-center">
+            <a href="javascript:;" class="blog-grid-more-button">Prikaži več <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(90)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
         </div>
         {% endif %}
     </div>

@@ -39,8 +39,6 @@ class MonitoringPage(Page):
 
 
 class MonitoringArchivePage(Page):
-    headline_first = models.TextField(verbose_name="Naslovnica prvi del", blank=True)
-    headline_second = models.TextField(verbose_name="Naslovnica drugi del", blank=True)
     headline_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -63,8 +61,6 @@ class MonitoringArchivePage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("headline_first"),
-        FieldPanel("headline_second"),
         FieldPanel("headline_image"),
         FieldPanel("intro_text"),
         FieldPanel("link"),
@@ -74,13 +70,16 @@ class MonitoringArchivePage(Page):
     subpage_types = ["home.GenericPage", "MonitoringPage"]
 
     def get_context(self, request):
-        # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        # Get all monitoring pages
-        all_monitoring = MonitoringPage.objects.all().live().order_by("-date")
-        # Paginate all monitoring pages
-        paginator = Paginator(all_monitoring, 10)
-        context["monitoring_pages"] = paginator.get_page(request.GET.get("page"))
+        all_monitoring_pages = (
+            MonitoringPage.objects.all()
+            .live()
+            .order_by("-date", "-first_published_at", "id")
+        )
+        monitoring_pages = all_monitoring_pages[:12]
+        context["monitoring_pages"] = monitoring_pages
+        context["monitoring_pages_shown"] = len(monitoring_pages)
+        context["monitoring_pages_total"] = all_monitoring_pages.count()
         return context
 
     class Meta:

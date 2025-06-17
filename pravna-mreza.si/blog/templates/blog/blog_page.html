@@ -68,14 +68,18 @@
         <div class="blog-sidebar">
           <h4 class="spaced serif">Povezane</h4>
           <h4 class="spaced">OBJAVE</h4>
-          <hr>
           {% for blogpost in page.related_blog_posts %}
+          <hr>
           <div>
             <a href="{{ blogpost.value.specific.url }}"><h6>{{ blogpost.value.title }}</h6></a>
-            <span class="blog-author d-block">{{ blogpost.value.specific.author }}</span>
+            {% if blogpost.value.specific.tag %}
+            <span class="blog-author d-block">{{ blogpost.value.specific.tag }}</span>
+            {% endif %}
+            {% if blogpost.value.specific.authors %}
+            <span class="blog-author d-block">{{ blogpost.value.specific.authors_list_string }}</span>
+            {% endif %}
             <time class="blog-subtitle d-block">{{ blogpost.value.specific.date|date:'d. m. Y' }}</time>
           </div>
-          <hr>
           {% endfor %}
         </div>
       </div>

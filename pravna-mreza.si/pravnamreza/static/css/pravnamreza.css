@@ -908,7 +908,7 @@ hr.short {
 
 
 .blog-sidebar h4.spaced {
-  letter-spacing: 3px;
+  letter-spacing: 4%;
 }
 
 .blog-sidebar h4.serif {
@@ -1872,6 +1872,7 @@ header .navbar .nav-item a.nav-link.active {
 }
 
 /* media publications */
-.publications-list hr:last-child {
+.publications-list hr:last-child,
+.monitoring-list hr:last-child {
   display: none;
 }
