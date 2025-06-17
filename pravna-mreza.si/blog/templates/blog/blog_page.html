@@ -66,12 +66,11 @@
       {% if page.related_blog_posts %}
       <div class="col-lg-4 pl-lg-5">
         <div class="blog-sidebar">
-          <h4 class="spaced serif">Povezane</h4>
-          <h4 class="spaced">OBJAVE</h4>
+          <h4 class="blog-sidebar-title">Povezane objave</h4>
           {% for blogpost in page.related_blog_posts %}
           <hr>
           <div>
-            <a href="{{ blogpost.value.specific.url }}"><h6>{{ blogpost.value.title }}</h6></a>
+            <h5><a href="{{ blogpost.value.specific.url }}">{{ blogpost.value.title }}</a></h5>
             {% if blogpost.value.specific.tag %}
             <span class="blog-author d-block">{{ blogpost.value.specific.tag }}</span>
             {% endif %}

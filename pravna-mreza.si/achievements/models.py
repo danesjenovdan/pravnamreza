@@ -51,8 +51,6 @@ class Achievement(models.Model):
 
 
 class AchievementArchivePage(Page):
-    headline_first = models.TextField(verbose_name="Naslovnica prvi del", blank=True)
-    headline_second = models.TextField(verbose_name="Naslovnica drugi del", blank=True)
     headline_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -63,8 +61,6 @@ class AchievementArchivePage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("headline_first"),
-        FieldPanel("headline_second"),
         FieldPanel("headline_image"),
     ]
 

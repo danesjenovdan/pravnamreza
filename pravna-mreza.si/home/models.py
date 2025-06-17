@@ -468,32 +468,3 @@ class DonationEmbedPage(Page):
     class Meta:
         verbose_name = "Donacijska stran z embedom"
         verbose_name_plural = "Donacijske strani z embedom"
-
-
-class NewsletterPage(Page):
-    headline_first = models.TextField(verbose_name="Naslovnica prvi del", blank=True)
-    headline_second = models.TextField(verbose_name="Naslovnica drugi del", blank=True)
-    headline_image = models.ForeignKey(
-        "wagtailimages.Image",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        verbose_name="Slika na naslovnici",
-    )
-    description = models.TextField(
-        null=True,
-        blank=True,
-        verbose_name=_("Opis"),
-    )
-
-    content_panels = Page.content_panels + [
-        FieldPanel("headline_first"),
-        FieldPanel("headline_second"),
-        FieldPanel("headline_image"),
-        FieldPanel("description"),
-    ]
-
-    class Meta:
-        verbose_name = "Urejanje naročnine"
-        verbose_name_plural = "Urejanja naročnin"
