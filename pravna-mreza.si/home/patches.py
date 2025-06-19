@@ -17,11 +17,21 @@ def patch_wagtail_serve_view():
             print(f"Page not found with path: {request.path}")
 
             from blog.models import BlogPage
+            from monitoring.models import MonitoringPage
 
             if migrated_page := BlogPage.objects.filter(
                 old_migrated_page_path=request.path
             ).first():
-                print(f"Redirecting to migrated page: {migrated_page.url}")
+                print(f"Redirecting to migrated blog page: {migrated_page.url}")
+                return redirect(
+                    migrated_page.url,
+                    permanent=True,
+                )
+
+            if migrated_page := MonitoringPage.objects.filter(
+                old_migrated_page_path=request.path
+            ).first():
+                print(f"Redirecting to migrated monitoring page: {migrated_page.url}")
                 return redirect(
                     migrated_page.url,
                     permanent=True,

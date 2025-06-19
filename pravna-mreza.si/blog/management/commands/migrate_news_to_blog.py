@@ -185,7 +185,6 @@ class Command(BaseCommand):
             self.stdout.write(f"AchievementArchivePage already in place: {title_print}")
         elif achievement_archive_page.live:
             self.stdout.write(f"Moving AchievementArchivePage: {title_print}")
-            achievement_archive_page.old_migrated_page_path = page_path
             achievement_archive_page.save()
             achievement_archive_page.move(about_us_page, pos="last-child")
 

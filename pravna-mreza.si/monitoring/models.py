@@ -18,6 +18,12 @@ class MonitoringPage(Page):
         ],
         use_json_field=True,
     )
+    # If this is a migrated page, store the old path for reference
+    # This is useful for redirects or if we need to reference the old page
+    old_migrated_page_path = models.TextField(
+        null=True,
+        blank=True,
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("date"),
