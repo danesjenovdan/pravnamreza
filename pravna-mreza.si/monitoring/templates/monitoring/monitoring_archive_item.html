@@ -1,0 +1,18 @@
+{% load wagtailcore_tags %}
+
+<div class="monitoring-archive-item">
+    <div class="row blog-preview">
+        <div class="col-lg-8">
+            <a class="blog-title" href="{{ item.url }}">
+                <h1 class="mb-0">{{ item.title }}</h1>
+            </a>
+            <div class="mb-3">
+                <time class="blog-subtitle">{{ item.date|date:'d. m. Y' }}</time>
+            </div>
+            <div>
+                {{ item.preview_text|richtext }}
+            </div>
+        </div>
+    </div>
+    <hr class="short mb-5">
+</div>

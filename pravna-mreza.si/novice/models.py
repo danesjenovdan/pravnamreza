@@ -1,4 +1,3 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
@@ -53,14 +52,11 @@ class NovicaPage(Page):
         FieldPanel("meta_image"),
     ]
 
+    parent_page_types = []
+
     def get_context(self, request):
         context = super().get_context(request)
-        try:
-            homepage = Page.objects.get(slug="home")
-            novice_archive = homepage.specific.news_section_archive_link.url
-        except:
-            novice_archive = "/"
-        context["novice_archive"] = novice_archive
+        context["novice_archive"] = self.get_parent().url
         return context
 
     class Meta:
@@ -69,8 +65,6 @@ class NovicaPage(Page):
 
 
 class NovicaArchivePage(Page):
-    headline_first = models.TextField(verbose_name="Naslovnica prvi del", blank=True)
-    headline_second = models.TextField(verbose_name="Naslovnica drugi del", blank=True)
     headline_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -81,32 +75,10 @@ class NovicaArchivePage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("headline_first"),
-        FieldPanel("headline_second"),
         FieldPanel("headline_image"),
     ]
 
-    def get_context(self, request):
-        # Update context to include only published posts, ordered by reverse-chron
-        context = super().get_context(request)
-        # Get all novice
-        vse_novice = NovicaPage.objects.all().live().order_by("-date")
-        # Paginate all novice by 2 per page
-        paginator = Paginator(vse_novice, 10)
-        # Try to get the ?page=x value
-        page = request.GET.get("page")
-        try:
-            # If the page exists and the ?page=x is an int
-            novice = paginator.page(page)
-        except PageNotAnInteger:
-            # If the ?page=x is not an int; show the first page
-            novice = paginator.page(1)
-        except EmptyPage:
-            # If the ?page=x is out of range (too high most likely)
-            # Then return the last page
-            novice = paginator.page(paginator.num_pages)
-        context["novice"] = novice
-        return context
+    parent_page_types = []
 
     class Meta:
         verbose_name = "Seznam novic"

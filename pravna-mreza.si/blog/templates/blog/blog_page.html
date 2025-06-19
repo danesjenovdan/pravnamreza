@@ -7,13 +7,14 @@
 
 <div class="row row-white headline-blog mb-0 pb-0">
   <div class="container">
-    <div class="row px-2 px-lg-0">
+    <div class="row">
       <div class="col-lg-6">
-        <h2 class="mb-1">
+        <h1 class="mb-1 mt-0">
           {{ page.title }}
-        </h2>
-        <div>
-          <time class="blog-subtitle d-block mb-4">{{ page.date|date:'d. m. Y' }}</time>
+        </h1>
+        <div class="blog-subtitle d-block mb-4">
+          {% if page.tag %}<span>{{ page.tag }} | </span>{% endif %}
+          <span>{{ page.date|date:'d. m. Y' }}</span>
         </div>
         {% for author in page.authors %}
         <div class="d-flex align-items-center my-2">
@@ -26,7 +27,7 @@
         </div>
         {% endfor %}
         <div class="mt-4">
-          {{ page.intro_text|safe }}
+          {{ page.intro_text|richtext }}
         </div>
       </div>
       <div class="col-lg-6 d-flex align-items-center justify-content-end">
@@ -38,7 +39,7 @@
 
 <div class="row">
   <div class="container">
-    <div class="row px-2 px-lg-0">
+    <div class="row">
       <div class="col">
         <hr class="my-5" />
       </div>
@@ -46,58 +47,48 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row row-white mt-0">
   <div class="container">
-    <div class="row px-2 px-lg-0">
+    <div class="row">
       <div class="col-lg-8">
         {% for block in page.body %}
-        <div class="row my-3 blog-body">
+        <div class="row blog-body">
           <div class="container">
             <div class="row">
               <div class="col">
-                {{ block.value|safe }}
+                {{ block.value|richtext }}
               </div>
             </div>
           </div>
         </div>
-      {% endfor %}
+        {% endfor %}
       </div>
       {% if page.related_blog_posts %}
       <div class="col-lg-4 pl-lg-5">
         <div class="blog-sidebar">
-          <h4 class="spaced serif">Povezane</h4>
-          <h4 class="spaced">OBJAVE</h4>
-          <hr>
+          <h4 class="blog-sidebar-title">Povezane objave</h4>
           {% for blogpost in page.related_blog_posts %}
+          <hr>
           <div>
-            <a href="{{ blogpost.value.specific.url }}"><h6>{{ blogpost.value.title }}</h6></a>
-            <span class="blog-author d-block">{{ blogpost.value.specific.author }}</span>
+            <h5><a href="{{ blogpost.value.specific.url }}">{{ blogpost.value.title }}</a></h5>
+            {% if blogpost.value.specific.tag %}
+            <span class="blog-author d-block">{{ blogpost.value.specific.tag }}</span>
+            {% endif %}
+            {% if blogpost.value.specific.authors %}
+            <span class="blog-author d-block">{{ blogpost.value.specific.authors_list_string }}</span>
+            {% endif %}
             <time class="blog-subtitle d-block">{{ blogpost.value.specific.date|date:'d. m. Y' }}</time>
           </div>
-          <hr>
           {% endfor %}
         </div>
       </div>
       {% endif %}
     </div>
-    <div class="row my-4 px-2 px-lg-0">
+    <div class="row mt-4">
       <div class="col">
-        <a href="{{ blogpost_archive }}" class="back-link"><<< Nazaj na seznam objav</a>
+        <a href="{{ blogpost_archive }}" class="back-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(180)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg>Nazaj na seznam objav</a>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="row row-white">
-  <div class="container">
-      <div class="row">
-          <div class="col-lg-6">
-              {% include "home/includes/social-media-box.html" %}
-          </div>
-          <div class="col-lg-6 my-4 my-xl-0">
-              {% include "home/includes/support-box.html" %}
-          </div>
-      </div>
   </div>
 </div>
 

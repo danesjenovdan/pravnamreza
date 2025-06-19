@@ -1,134 +1,54 @@
 {% extends "home/base_page.html" %}
-{% load i18n wagtailcore_tags wagtailimages_tags static %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}page page--generic{% endblock %}
 
 {% block page_body %}
 
-<div class="row row-light-purple headline-blog">
+<div class="row row-light-purple headline headline--blog">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 d-flex align-items-center justify-content-center justify-content-lg-start">
-                <h1>
-                    <div class="spaced serif">{{ page.headline_first }}</div>
-                    <div class="spaced">{{ page.headline_second }}</div>
-                </h1>
+            <div class="col-lg-7">
+                <h1 class="headline-title">{{ page.title }}</h1>
             </div>
-            <div class="col-lg-6 d-flex align-items-center justify-content-end">
-                {% image page.headline_image width-1100 class="img-fluid" %}
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row row-white px-4 px-lg-0">
-    <div class="container">
-        {% for blogpost in blogposts %}
-        <div class="row blog-preview mb-lg-5">
-            <div class="col-lg-4 mb-2">
-                {% image blogpost.preview_image width-1100 class="img-fluid" %}
-            </div>
-            <div class="col-lg-8">
-                <a class="blog-title" href="{{ blogpost.url }}">
-                    <h1 class="mb-1">{{ blogpost.title }}</h1>
-                </a>
-                {% if blogpost.authors %}
-                <div class="d-flex align-items-center">
-                    <span class="blog-author">{{ blogpost.authors_list_string }}</span>
-                    <span class="vertical-line px-1"> | </span>
-                    <time class="blog-subtitle">{{ blogpost.date|date:'d. m. Y' }}</time>
-                </div>
-                {% endif %}
-                <div class="mt-3">
-                    {{ blogpost.preview_text|safe }}
+            <div class="col-lg-5">
+                <div class="headline-image">
+                    {% image page.headline_image width-1100 class="img-fluid" %}
                 </div>
             </div>
         </div>
-        <hr class="my-5 d-lg-none" />
-        {% endfor %}
     </div>
 </div>
 
 <div class="row">
     <div class="container">
-        {% if blogposts.paginator.num_pages > 1 %}
         <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                <div class="d-flex">
-                    {% if blogposts.has_previous %}
-                    <div class="page-num">
-                        <a href="?page={{ blogposts.previous_page_number }}">
-                            <span><<<</span>
-                        </a>
-                    </div>
-                    {% endif %}
-
-                    {% if blogposts.number > 2 %}
-                    <div class="page-num">
-                        <a href="?page=1">1</a>
-                    </div>
-                    {% endif %}
-
-                    {% if blogposts.number > 3 %}
-                    <div class="page-num">
-                        <span>...</span>
-                    </div>
-                    {% endif %}
-
-                    {% if blogposts.number|add:"-1" > 0 %}
-                    <div class="page-num">
-                        <a href="?page={{ blogposts.number|add:"-1" }}">{{ blogposts.number|add:"-1" }}</a>
-                    </div>
-                    {% endif %}
-
-                    <div class="page-num active">
-                        <a href="?page={{ blogposts.number }}">{{ blogposts.number }}</a>
-                    </div>
-
-                    {% if blogposts.number|add:"1" < blogposts.paginator.num_pages %}
-                    <div class="page-num">
-                        <a href="?page={{ blogposts.number|add:"1" }}">{{ blogposts.number|add:"1" }}</a>
-                    </div>
-                    {% endif %}
-
-                    {% if blogposts.paginator.num_pages > blogposts.number|add:"2" %}
-                    <div class="page-num">
-                        <span>...</span>
-                    </div>
-                    {% endif %}
-
-                    {% if blogposts.number < blogposts.paginator.num_pages %}
-                    <div class="page-num">
-                        <a href="?page={{ blogposts.paginator.num_pages }}">
-                        {{ blogposts.paginator.num_pages }}
-                        </a>
-                    </div>
-                    {% endif %}
-
-                    {% if blogposts.has_next %}
-                    <div class="page-num">
-                        <a href="?page={{ blogposts.next_page_number }}">
-                            <span>&gt;&gt;&gt;</span>
-                        </a>
-                    </div>
-                    {% endif %}
+            <div class="col">
+                <h2 class="blog-filter-title mt-0 mb-2">Filtriraj</h2>
+                <div class="blog-filter-links">
+                    {% for tag in tags %}
+                    <a href="?tag={{ tag.slug }}" class="blog-filter-link {% if tag == selected_tag %}active{% endif %}" data-tag="{{ tag }}">{{ tag }}</a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        {% endif %}
     </div>
 </div>
 
 <div class="row row-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                {% include "home/includes/newsletter-box.html" %}
-            </div>
-            <div class="col-lg-6 my-4 my-xl-0">
-                {% include "home/includes/support-box.html" %}
-            </div>
+    <div class="container" data-load-more-container=".blog-grid" data-load-more-url="{% url 'blog_archive_paged_view' %}" data-load-more-parent="{{ page.id }}">
+        <h2 class="sr-only">Seznam objav</h2>
+        <div class="blog-grid">
+        {% for blogpost in blogposts %}
+            {% include "blog/blog_grid_item.html" with item=blogpost %}
+        {% endfor %}
         </div>
+        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ blogposts.end_index }}</span> od <span class="total">{{ blogposts.paginator.count }}</span></div>
+        {% if blogposts.end_index < blogposts.paginator.count %}
+        <div class="text-center">
+            <a href="javascript:;" class="blog-grid-more-button">Prikaži več <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(90)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
+        </div>
+        {% endif %}
     </div>
 </div>
 

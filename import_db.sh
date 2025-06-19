@@ -6,8 +6,8 @@ K8S_NAMESPACE="pravnamreza"
 SECRETS_NAME="pmvd-config"
 
 # DATABASE PASSWORD IS DYNAMICALLY RETRIEVED FROM THE CLUSTER
-DATABASE_USER=$(kubectl get secret $SECRETS_NAME -n $K8S_NAMESPACE -o jsonpath="{.data.DB_USERNAME}" | base64 --decode)
-DATABASE_PASSWORD=$(kubectl get secret $SECRETS_NAME -n $K8S_NAMESPACE -o jsonpath="{.data.DB_PASSWORD}" | base64 --decode)
+DATABASE_USER=$(kubectl get secret $SECRETS_NAME -n $K8S_NAMESPACE -o jsonpath="{.data.DJANGO_DATABASE_USERNAME}" | base64 --decode)
+DATABASE_PASSWORD=$(kubectl get secret $SECRETS_NAME -n $K8S_NAMESPACE -o jsonpath="{.data.DJANGO_DATABASE_PASSWORD}" | base64 --decode)
 
 echo
 echo "PORT FORWARDING"

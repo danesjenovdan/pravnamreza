@@ -1,14 +1,35 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
+from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
+from home.pagination import paginate_limit_offset
 
-class Author(models.Model):
-    name = models.TextField()
+
+class BlogTag(models.Model):
+    name = models.TextField(
+        verbose_name="Ime",
+    )
+
+    @property
+    def slug(self):
+        return slugify(self.name)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Oznaka"
+        verbose_name_plural = "Oznake"
+
+
+class BlogAuthor(models.Model):
+    name = models.TextField(
+        verbose_name="Ime",
+    )
     image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -18,19 +39,30 @@ class Author(models.Model):
         verbose_name="Slika",
     )
 
-    panels = [
-        FieldPanel("name"),
-        FieldPanel("image"),
-    ]
-
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = "Avtor"
+        verbose_name_plural = "Avtorji"
+
 
 class BlogPage(Page):
-    date = models.DateField(verbose_name="Datum")
+    date = models.DateField(
+        verbose_name="Datum",
+    )
+    tag = models.ForeignKey(
+        BlogTag,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Oznaka",
+    )
     preview_text = RichTextField(
-        verbose_name="Opis na seznamu", blank=False, null=False, default=""
+        null=False,
+        blank=False,
+        default="",
+        verbose_name="Opis na seznamu",
     )
     preview_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -40,24 +72,24 @@ class BlogPage(Page):
         related_name="+",
         verbose_name="Slika",
     )
-    intro_text = RichTextField(blank=True, null=True, verbose_name="Opis pod naslovom")
+    intro_text = RichTextField(
+        null=True,
+        blank=True,
+        verbose_name="Opis pod naslovom",
+    )
     related_blog_posts = StreamField(
         [
             ("blog_post", blocks.PageChooserBlock(label="Povezava do blog zapisa")),
         ],
         blank=True,
         null=True,
-        # min_num=0,
-        # max_num=3,
         verbose_name="Povezani blog zapisi",
-        use_json_field=True,
     )
     body = StreamField(
         [
             ("paragraph", blocks.RichTextBlock()),
         ],
         verbose_name="Besedilo",
-        use_json_field=True,
     )
     meta_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -66,6 +98,12 @@ class BlogPage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
         verbose_name="OG slika",
+    )
+    # If this is a migrated page, store the old path for reference
+    # This is useful for redirects or if we need to reference the old page
+    old_migrated_page_path = models.TextField(
+        null=True,
+        blank=True,
     )
 
     @property
@@ -79,6 +117,7 @@ class BlogPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("date"),
+        FieldPanel("tag"),
         InlinePanel("blog_author_relationship", label="Avtorji"),
         FieldPanel("preview_text"),
         FieldPanel("preview_image"),
@@ -91,36 +130,37 @@ class BlogPage(Page):
         FieldPanel("meta_image"),
     ]
 
+    parent_page_types = ["BlogArchivePage", "NewsletterArchivePage"]
+
     def get_context(self, request):
         context = super().get_context(request)
-        try:
-            homepage = Page.objects.get(slug="home")
-            blogpost_archive = homepage.specific.blog_section_archive_link.url
-        except:
-            blogpost_archive = "/"
-        context["blogpost_archive"] = blogpost_archive
+        context["blogpost_archive"] = self.get_parent().url
         return context
 
     class Meta:
-        verbose_name = "Blog"
-        verbose_name_plural = "Blog"
+        verbose_name = "Objava"
+        verbose_name_plural = "Objave"
 
 
 class BlogAuthorRelationship(models.Model):
-    # the model that connects blog posts and authors
     blog = ParentalKey(
-        "BlogPage", related_name="blog_author_relationship", on_delete=models.CASCADE
+        "BlogPage",
+        related_name="blog_author_relationship",
+        on_delete=models.CASCADE,
     )
     author = models.ForeignKey(
-        "Author", related_name="+", on_delete=models.CASCADE, verbose_name="Avtor_ica"
+        "BlogAuthor",
+        related_name="+",
+        on_delete=models.CASCADE,
+        verbose_name="Avtor_ica",
     )
 
-    panels = [FieldPanel("author")]
+    panels = [
+        FieldPanel("author"),
+    ]
 
 
 class BlogArchivePage(Page):
-    headline_first = models.TextField(verbose_name="Naslovnica prvi del", blank=True)
-    headline_second = models.TextField(verbose_name="Naslovnica drugi del", blank=True)
     headline_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -131,33 +171,66 @@ class BlogArchivePage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("headline_first"),
-        FieldPanel("headline_second"),
         FieldPanel("headline_image"),
     ]
 
+    parent_page_types = ["home.HomePage"]
+    subpage_types = ["home.GenericPage", "BlogPage"]
+
     def get_context(self, request):
-        # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        # Get all blogposts
-        all_blogposts = BlogPage.objects.all().live().order_by("-first_published_at")
-        # Paginate all novice by 2 per page
-        paginator = Paginator(all_blogposts, 10)
-        # Try to get the ?page=x value
-        page = request.GET.get("page")
-        try:
-            # If the page exists and the ?page=x is an int
-            blogposts = paginator.page(page)
-        except PageNotAnInteger:
-            # If the ?page=x is not an int; show the first page
-            blogposts = paginator.page(1)
-        except EmptyPage:
-            # If the ?page=x is out of range (too high most likely)
-            # Then return the last page
-            blogposts = paginator.page(paginator.num_pages)
-        context["blogposts"] = blogposts
+
+        tags = BlogTag.objects.all().order_by("name")
+        context["tags"] = tags
+
+        selected_tag = None
+        slug_to_tag = {tag.slug: tag for tag in tags}
+        if tag_slug := request.GET.get("tag", None):
+            selected_tag = slug_to_tag.get(tag_slug, None)
+        context["selected_tag"] = selected_tag
+
+        all_blogposts = (
+            BlogPage.objects.child_of(self)
+            .live()
+            .order_by("-date", "-first_published_at", "id")
+        )
+        if selected_tag:
+            all_blogposts = all_blogposts.filter(tag=selected_tag)
+        context["blogposts"] = paginate_limit_offset(all_blogposts, limit=12, offset=0)
         return context
 
     class Meta:
-        verbose_name = "Seznam blog zapisov"
-        verbose_name_plural = "Seznam blog zapisov"
+        verbose_name = "Seznam objav"
+        verbose_name_plural = "Seznami objav"
+
+
+class NewsletterArchivePage(Page):
+    headline_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Slika na naslovnici",
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("headline_image"),
+    ]
+
+    parent_page_types = ["home.HomePage"]
+    subpage_types = ["home.GenericPage", "BlogPage"]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        all_blogposts = (
+            BlogPage.objects.child_of(self)
+            .live()
+            .order_by("-date", "-first_published_at", "id")
+        )
+        context["blogposts"] = paginate_limit_offset(all_blogposts, limit=12, offset=0)
+        return context
+
+    class Meta:
+        verbose_name = "Seznam novičnikov"
+        verbose_name_plural = "Seznami novičnikov"

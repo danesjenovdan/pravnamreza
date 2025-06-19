@@ -1,0 +1,79 @@
+{% extends "home/base_page.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}page page--generic{% endblock %}
+
+{% block page_body %}
+
+<div class="row row-light-purple headline headline--blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <h1 class="headline-title">{{ page.title }}</h1>
+            </div>
+            <div class="col-lg-5">
+                <div class="headline-image">
+                    {% image page.headline_image width-1100 class="img-fluid" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="infopush">
+    <div class="row row-white">
+        <div class="container">
+            <div class="row-purple m-0 d-flex flex-column flex-lg-row">
+                <div class="infopush-image">
+                    <img src="{% static 'img/default-newsletter-image.png' %}" class="img-fluid" alt="">
+                </div>
+                <div class="infopush-content">
+                    <div>
+                        <h3 class="infopush-box-newsletter-title">
+                            <span>{{ settings.home.Newsletter.newsletter_title_part_one }}</span>
+                            <span>{{ settings.home.Newsletter.newsletter_title_part_two }}</span>
+                        </h3>
+                        <form id="newsletter-form" class="infopush-box-newsletter-form">
+                            <div class="infopush-box-newsletter-row">
+                                <div>
+                                    <div class="form-group">
+                                        <label>
+                                            {{ settings.home.Newsletter.newsletter_email_label }}
+                                            <input type="email" class="form-control" id="newsletter-email" required>
+                                        </label>
+                                    </div>
+                                    <div class="form-group form-check p-0 mb-0">
+                                        <input type="checkbox" class="form-check-input newsletter-checkbox" id="newsletter-terms" required>
+                                        <label class="form-check-label newsletter-checkbox-label" for="newsletter-terms">{{ settings.home.Newsletter.newsletter_terms }}</label>
+                                    </div>
+                                </div>
+                                <button type="submit" id="newsletter-btn" class="infopush-box-newsletter-button">Prijavi se <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></button>
+                            </div>
+                            <div id="newsletter-success-message" class="pt-2">{{ settings.home.Newsletter.newsletter_success }}</div>
+                            <div id="newsletter-error-message" class="pt-2">{{ settings.home.Newsletter.newsletter_failure }}</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-white">
+    <div class="container" data-load-more-container=".blog-grid" data-load-more-url="{% url 'blog_archive_paged_view' %}" data-load-more-parent="{{ page.id }}">
+        <h2 class="sr-only">Seznam novičnikov</h2>
+        <div class="blog-grid">
+        {% for blogpost in blogposts %}
+            {% include "blog/blog_grid_item.html" with item=blogpost %}
+        {% endfor %}
+        </div>
+        <div class="blog-grid-show-count">Prikazanih <span class="shown">{{ blogposts.end_index }}</span> od <span class="total">{{ blogposts.paginator.count }}</span></div>
+        {% if blogposts.end_index < blogposts.paginator.count %}
+        <div class="text-center">
+            <a href="javascript:;" class="blog-grid-more-button">Prikaži več <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(90)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg></a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock page_body %}

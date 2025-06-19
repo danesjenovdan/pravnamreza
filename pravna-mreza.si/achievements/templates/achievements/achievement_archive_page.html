@@ -5,31 +5,29 @@
 
 {% block page_body %}
 
-<div class="row row-light-purple headline-blog">
+<div class="row row-light-purple headline headline--blog">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 d-flex align-items-center justify-content-center justify-content-lg-start">
-                <h1>
-                    <div class="spaced serif">{{ page.headline_first }}</div>
-                    <div class="spaced">{{ page.headline_second }}</div>
-                </h1>
+            <div class="col-lg-7">
+                <h1 class="headline-title">{{ page.title }}</h1>
             </div>
-            <div class="col-lg-6 d-flex align-items-center justify-content-end">
-                {% image page.headline_image width-1100 class="img-fluid" %}
+            <div class="col-lg-5">
+                <div class="headline-image">
+                    {% image page.headline_image width-1100 class="img-fluid" %}
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-
 {% for year, achievements in achievements_by_year.items %}
-<div class="row px-4 px-lg-0 pt-4">
+<div class="row row-white">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col">
-              <div class="archive-title">
-                <h1>{{ year }}</h1>
-              </div>
+        <div class="row mb-3 pb-3">
+            <div class="col mb-1">
+                <div class="archive-title archive-title-large">
+                    <h2>{{ year }}</h2>
+                </div>
             </div>
         </div>
         <div class="row blog-preview">
@@ -37,7 +35,7 @@
             <div class="col-lg-6 achievement-box-col">
                 <div class="achievement-box square d-flex flex-column justify-content-between">
                     <div>
-                        <h3 class="mb-0">{{ achievement.title }}</h3>
+                        <h3 class="my-0">{{ achievement.title }}</h3>
                         <div class="mt-2 mb-3">
                             <span>{{ achievement.tag }}</span>
                             <span class="vertical-line">|</span>
@@ -60,8 +58,7 @@
                         <div>
                             <a class="achievement-btn"
                                 href="{% if achievement_link.value.url %}{{ achievement_link.value.url }}{% elif achievement_link.value.page %}{% pageurl achievement_link.value.page %}{% elif achievement_link.value.email %}mailto:{{ achievement_link.value.email }}{% endif %}">
-                                {{ achievement_link.value.name }}
-                                &gt;&gt;&gt;
+                                {{ achievement_link.value.name }}<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg>
                             </a>
                         </div>
                         {% endfor %}
@@ -74,18 +71,5 @@
     </div>
 </div>
 {% endfor %}
-
-<div class="row row-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                {% include "home/includes/newsletter-box.html" %}
-            </div>
-            <div class="col-lg-6 my-4 my-xl-0">
-                {% include "home/includes/support-box.html" %}
-            </div>
-        </div>
-    </div>
-</div>
 
 {% endblock page_body %}

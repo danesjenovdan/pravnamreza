@@ -1,28 +1,36 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
-{% if infopushes %}
-<div class="row row-white px-4 px-lg-0">
 {% for infopush in infopushes %}
-<div class="container-fluid infopush">
+<div class="infopush">
     <div class="row">
         <div class="container">
-            <div class="row position-relative py-4 py-xl-5 my-4">
-                <div class="infopush-bg"></div>
-                <div class="col-lg-9">
-                    {% if infopush.title %}
-                        <h3>{{ infopush.title }}</h3>
-                    {% endif %}
-                    {{ infopush.text|safe }}
-                </div>
-                {% if infopush.page %}
-                <div class="col-lg-3 d-flex align-items-center justify-content-center justify-content-lg-end my-4 my-lg-0">
-                    <a href="{% pageurl infopush.page %}" class="btn infopush-btn">{{ infopush.page_text }} &gt;&gt;&gt;</a>
+            {% if infopush.page %}
+            <a href="{% pageurl infopush.page %}">
+            {% endif %}
+            <div class="row-purple m-0 d-flex flex-column flex-lg-row">
+                {% if infopush.image %}
+                <div class="infopush-image">
+                    {% image infopush.image fill-600x400 class="img-fluid" %}
                 </div>
                 {% endif %}
+                <div class="infopush-content">
+                    <div>
+                        {% if infopush.title %}
+                        <h3>{{ infopush.title }}</h3>
+                        {% endif %}
+                        {{ infopush.text|richtext }}
+                        {% if infopush.page %}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564">
+                            <path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/>
+                        </svg>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
+            {% if infopush.page %}
+            </a>
+            {% endif %}
         </div>
     </div>
 </div>
 {% endfor %}
-</div>
-{% endif %}

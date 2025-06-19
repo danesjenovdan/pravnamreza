@@ -7,13 +7,13 @@
 
 <div class="row row-white headline-blog mb-0 pb-0">
   <div class="container">
-    <div class="row px-2 px-lg-0">
+    <div class="row">
       <div class="col-lg-6">
-        <h2>
+        <h1 class="mb-1 mt-0">
           {{ page.title }}
-        </h2>
-        <div>
-          {{ page.intro_text|safe }}
+        </h1>
+        <div class="mt-4">
+          {{ page.intro_text|richtext }}
         </div>
       </div>
       <div class="col-lg-6 d-flex align-items-center justify-content-end">
@@ -25,24 +25,24 @@
 
 <div class="row">
   <div class="container">
-    <div class="row px-2 px-lg-0">
+    <div class="row">
       <div class="col">
-        <hr class="my-4" />
+        <hr class="my-5" />
       </div>
     </div>
   </div>
 </div>
 
-<div class="row mt-3">
+<div class="row row-white mt-0">
   <div class="container">
-    <div class="row px-2 px-lg-0">
+    <div class="row">
       <div class="col-lg-8">
         {% for block in page.body %}
-          <div class="row my-3 blog-body">
+          <div class="row blog-body">
             <div class="container">
               <div class="row">
                 <div class="col">
-                  {{ block.value|safe }}
+                  {{ block.value|richtext }}
                 </div>
               </div>
             </div>
@@ -50,24 +50,11 @@
         {% endfor %}
       </div>
     </div>
-    <div class="row my-4 px-2 px-lg-0">
+    <div class="row mt-4">
       <div class="col">
-        <a href="{{ projects_archive }}" class="back-link"><<< Nazaj na seznam objav</a>
+        <a href="{{ projects_archive }}" class="back-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(180)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg>Nazaj na seznam objav</a>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="row row-white">
-  <div class="container">
-      <div class="row">
-          <div class="col-lg-6">
-              {% include "home/includes/social-media-box.html" %}
-          </div>
-          <div class="col-lg-6 my-4 my-xl-0">
-              {% include "home/includes/support-box.html" %}
-          </div>
-      </div>
   </div>
 </div>
 
