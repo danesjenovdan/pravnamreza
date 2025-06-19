@@ -1,8 +1,12 @@
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 <div class="blog-grid-item">
   <a class="blog-grid-image" href="{{ item.url }}" tabindex="-1">
+    {% if item.preview_image %}
     {% image item.preview_image width-720 class="img-fluid" %}
+    {% else %}
+    <img src="{% static 'img/default-blog-image.png' %}" class="img-fluid" alt="">
+    {% endif %}
   </a>
   <div class="blog-grid-content">
     <h3 class="blog-grid-title"><a href="{{ item.url }}">{{ item.title }}</a></h3>

@@ -52,7 +52,6 @@ $(document).ready(function () {
 
   // load more buttons
   $(".blog-grid-more-button").on("click", function (event) {
-    event.preventDefault();
     const button = $(this); // this is the button (<a> link) that was clicked
 
     if (button.hasClass("loading")) {
@@ -71,6 +70,8 @@ $(document).ready(function () {
     if (!container.length || !shownNumElem.length || offset >= total) {
       return;
     }
+
+    event.preventDefault();
 
     button.prop("disabled", true);
     button.addClass("loading");
@@ -101,5 +102,20 @@ $(document).ready(function () {
         console.error("Error loading more posts:", error);
         button.text("Napaka");
       });
+  });
+
+  $("body").on("click", ".blog-grid-item", function (event) {
+    const item = $(this);
+
+    // Don't navigate if text is selected
+    const selectedText = window.getSelection().toString();
+    if (selectedText) return;
+
+    if (!event.target.closest("a")) {
+      const link = item.find(".blog-grid-title a");
+      if (link.length) {
+        link[0].click();
+      }
+    }
   });
 });
