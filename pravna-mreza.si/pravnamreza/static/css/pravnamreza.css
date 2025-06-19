@@ -1640,6 +1640,36 @@ header .navbar .nav-item a.nav-link:focus-visible {
 }
 
 /* new blog grid */
+.blog-filter-title {
+  font-family: var(--font-family-serif);
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: none;
+  color: #17093A;
+}
+
+.blog-filter-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.blog-filter-links .blog-filter-link {
+  display: inline-block;
+  padding: 5px 13px;
+  background-color: #D9D9D9;
+  font-family: var(--font-family-sans-serif);
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 400;
+  color: #17093A;
+}
+
+.blog-filter-links .blog-filter-link.active {
+  background: linear-gradient(92.89deg, #3A1791 0.54%, #160444 99.5%);
+  color: #fff;
+}
+
 .blog-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, InlinePanel
@@ -12,6 +13,10 @@ class BlogTag(models.Model):
     name = models.TextField(
         verbose_name="Ime",
     )
+
+    @property
+    def slug(self):
+        return slugify(self.name)
 
     def __str__(self):
         return self.name
@@ -174,9 +179,21 @@ class BlogArchivePage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
+
+        tags = BlogTag.objects.all().order_by("name")
+        context["tags"] = tags
+
+        selected_tag = None
+        slug_to_tag = {tag.slug: tag for tag in tags}
+        if tag_slug := request.GET.get("tag", None):
+            selected_tag = slug_to_tag.get(tag_slug, None)
+        context["selected_tag"] = selected_tag
+
         all_blogposts = (
             BlogPage.objects.all().live().order_by("-date", "-first_published_at", "id")
         )
+        if selected_tag:
+            all_blogposts = all_blogposts.filter(tag=selected_tag)
         context["blogposts"] = paginate_limit_offset(all_blogposts, limit=12, offset=0)
         return context
 

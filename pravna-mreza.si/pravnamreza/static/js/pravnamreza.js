@@ -77,6 +77,10 @@ $(document).ready(function () {
     button.addClass("loading");
 
     const loadMoreUrl = new URL(url, window.location.href);
+    const currentParams = new URLSearchParams(window.location.search);
+    currentParams.forEach((value, key) => {
+      loadMoreUrl.searchParams.set(key, value);
+    });
     loadMoreUrl.searchParams.set("offset", offset);
 
     fetch(loadMoreUrl.toString())

@@ -20,8 +20,24 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="blog-filter-title mt-0 mb-2">Filtriraj</h2>
+                <div class="blog-filter-links">
+                    {% for tag in tags %}
+                    <a href="?tag={{ tag.slug }}" class="blog-filter-link {% if tag == selected_tag %}active{% endif %}" data-tag="{{ tag }}">{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row row-white">
     <div class="container" data-load-more-container=".blog-grid" data-load-more-url="{% url 'blog_archive_paged_view' %}">
+        <h2 class="sr-only">Seznam objav</h2>
         <div class="blog-grid">
         {% for blogpost in blogposts %}
             {% include "blog/blog_grid_item.html" with item=blogpost %}
