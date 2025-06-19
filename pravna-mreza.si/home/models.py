@@ -338,11 +338,15 @@ class HomePage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        blogposts = (
-            BlogPage.objects.all()
-            .live()
-            .order_by("-date", "-first_published_at", "id")[:6]
-        )
+        parent_page = self.blog_section_archive_link
+        if not parent_page:
+            blogposts = []
+        else:
+            blogposts = (
+                BlogPage.objects.child_of(parent_page)
+                .live()
+                .order_by("-date", "-first_published_at", "id")[:6]
+            )
         context["blogposts"] = blogposts
         return context
 

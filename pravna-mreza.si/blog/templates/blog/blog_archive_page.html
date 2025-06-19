@@ -36,7 +36,7 @@
 </div>
 
 <div class="row row-white">
-    <div class="container" data-load-more-container=".blog-grid" data-load-more-url="{% url 'blog_archive_paged_view' %}">
+    <div class="container" data-load-more-container=".blog-grid" data-load-more-url="{% url 'blog_archive_paged_view' %}" data-load-more-parent="{{ page.id }}">
         <h2 class="sr-only">Seznam objav</h2>
         <div class="blog-grid">
         {% for blogpost in blogposts %}

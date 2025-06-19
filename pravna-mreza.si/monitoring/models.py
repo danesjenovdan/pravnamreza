@@ -72,7 +72,7 @@ class MonitoringArchivePage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         all_monitoring_pages = (
-            MonitoringPage.objects.all()
+            MonitoringPage.objects.child_of(self)
             .live()
             .order_by("-date", "-first_published_at", "id")
         )

@@ -1,8 +1,9 @@
+from django.http import Http404
 from django.views.generic import TemplateView
 
 from home.pagination import paginate_limit_offset
 
-from .models import MonitoringPage
+from .models import MonitoringArchivePage, MonitoringPage
 
 
 class MonitoringArchivePagedView(TemplateView):
@@ -10,9 +11,15 @@ class MonitoringArchivePagedView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        parent = int(self.request.GET.get("parent", 0))
+        parent_page = MonitoringArchivePage.objects.filter(pk=parent).first()
+        if not parent_page:
+            raise Http404("Parent page not found")
+
         offset = int(self.request.GET.get("offset", 0))
         all_monitoring_pages = (
-            MonitoringPage.objects.all()
+            MonitoringPage.objects.child_of(parent_page)
             .live()
             .order_by("-date", "-first_published_at", "id")
         )

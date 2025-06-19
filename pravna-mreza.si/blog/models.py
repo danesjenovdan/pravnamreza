@@ -130,7 +130,7 @@ class BlogPage(Page):
         FieldPanel("meta_image"),
     ]
 
-    parent_page_types = ["BlogArchivePage"]
+    parent_page_types = ["BlogArchivePage", "NewsletterArchivePage"]
 
     def get_context(self, request):
         context = super().get_context(request)
@@ -190,7 +190,9 @@ class BlogArchivePage(Page):
         context["selected_tag"] = selected_tag
 
         all_blogposts = (
-            BlogPage.objects.all().live().order_by("-date", "-first_published_at", "id")
+            BlogPage.objects.child_of(self)
+            .live()
+            .order_by("-date", "-first_published_at", "id")
         )
         if selected_tag:
             all_blogposts = all_blogposts.filter(tag=selected_tag)
@@ -200,3 +202,35 @@ class BlogArchivePage(Page):
     class Meta:
         verbose_name = "Seznam objav"
         verbose_name_plural = "Seznami objav"
+
+
+class NewsletterArchivePage(Page):
+    headline_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Slika na naslovnici",
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("headline_image"),
+    ]
+
+    parent_page_types = ["home.HomePage"]
+    subpage_types = ["home.GenericPage", "BlogPage"]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        all_blogposts = (
+            BlogPage.objects.child_of(self)
+            .live()
+            .order_by("-date", "-first_published_at", "id")
+        )
+        context["blogposts"] = paginate_limit_offset(all_blogposts, limit=12, offset=0)
+        return context
+
+    class Meta:
+        verbose_name = "Seznam novičnikov"
+        verbose_name_plural = "Seznami novičnikov"

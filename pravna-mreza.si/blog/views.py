@@ -1,8 +1,9 @@
+from django.http import Http404
 from django.views.generic import TemplateView
 
 from home.pagination import paginate_limit_offset
 
-from .models import BlogPage, BlogTag
+from .models import BlogArchivePage, BlogPage, BlogTag
 
 
 class BlogArchivePagedView(TemplateView):
@@ -10,6 +11,12 @@ class BlogArchivePagedView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        parent = int(self.request.GET.get("parent", 0))
+        parent_page = BlogArchivePage.objects.filter(pk=parent).first()
+        if not parent_page:
+            raise Http404("Parent page not found")
+
         offset = int(self.request.GET.get("offset", 0))
 
         tags = BlogTag.objects.all().order_by("name")
@@ -22,7 +29,9 @@ class BlogArchivePagedView(TemplateView):
         context["selected_tag"] = selected_tag
 
         all_blogposts = (
-            BlogPage.objects.all().live().order_by("-date", "-first_published_at", "id")
+            BlogPage.objects.child_of(parent_page)
+            .live()
+            .order_by("-date", "-first_published_at", "id")
         )
         if selected_tag:
             all_blogposts = all_blogposts.filter(tag=selected_tag)

@@ -39,7 +39,7 @@
 </div>
 
 <div class="row row-light py-5 mb-0">
-    <div class="container my-lg-5" data-load-more-container=".monitoring-list" data-load-more-url="{% url 'monitoring_archive_paged_view' %}">
+    <div class="container my-lg-5" data-load-more-container=".monitoring-list" data-load-more-url="{% url 'monitoring_archive_paged_view' %}" data-load-more-parent="{{ page.id }}">
         <div class="row mb-5">
             <div class="col">
               <div class="archive-title archive-title-large">

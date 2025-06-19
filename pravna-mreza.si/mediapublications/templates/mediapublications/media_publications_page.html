@@ -21,7 +21,7 @@
 </div>
 
 <div class="row row-white">
-    <div class="container" data-load-more-container=".publications-list" data-load-more-url="{% url 'media_publications_paged_view' %}">
+    <div class="container" data-load-more-container=".publications-list" data-load-more-url="{% url 'media_publications_paged_view' %}" data-load-more-parent="{{ page.id }}">
         <div class="publications-list">
         {% for mp in publications %}
             {% include "mediapublications/media_publications_item.html" with item=mp %}

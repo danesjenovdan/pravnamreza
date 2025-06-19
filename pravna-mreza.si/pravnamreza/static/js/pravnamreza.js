@@ -4,9 +4,9 @@ $(document).ready(function () {
     console.log("Subscribing se začne");
     event.preventDefault();
     if ($("#newsletter-terms").is(":checked")) {
-      // $('#newsletter-btn').html('Pošiljanje...');
+      $('#newsletter-btn').html('Pošiljanje...');
       // reset form
-      $(".newsletter-checkbox-label").css({ color: "white" });
+      $(".newsletter-checkbox-label").css({ color: "" });
       $("#newsletter-success-message").css("display", "none");
       $("#newsletter-error-message").css("display", "none");
       // disable form while processing
@@ -30,7 +30,7 @@ $(document).ready(function () {
           throw new Error("Response not ok");
         })
         .then((res) => {
-          // $('#newsletter-btn').html('Prijavi se');
+          $('#newsletter-btn').html('Prijavi se');
           $("#newsletter-email").val("");
           $("#newsletter-terms").prop("checked", false);
           $("#newsletter-btn").prop("disabled", false);
@@ -39,7 +39,7 @@ $(document).ready(function () {
           $("#newsletter-success-message").css("display", "block");
         })
         .catch((error) => {
-          // $('#newsletter-btn').html('Prijavi se');
+          $('#newsletter-btn').html('Napaka');
           $("#newsletter-btn").prop("disabled", false);
           $("#newsletter-email").prop("disabled", false);
           $("#newsletter-terms").prop("disabled", false);
@@ -62,6 +62,7 @@ $(document).ready(function () {
     const containerSelector = parent.data("load-more-container");
     const container = parent.find(containerSelector);
     const url = parent.data("load-more-url");
+    const parentPageId = parent.data("load-more-parent");
     const shownNumElem = parent.find(".blog-grid-show-count").find(".shown");
     const totalNumElem = parent.find(".blog-grid-show-count").find(".total");
     const offset = Number.parseInt(shownNumElem.text(), 10);
@@ -81,6 +82,9 @@ $(document).ready(function () {
     currentParams.forEach((value, key) => {
       loadMoreUrl.searchParams.set(key, value);
     });
+    if (parentPageId) {
+      loadMoreUrl.searchParams.set("parent", parentPageId);
+    }
     loadMoreUrl.searchParams.set("offset", offset);
 
     fetch(loadMoreUrl.toString())
