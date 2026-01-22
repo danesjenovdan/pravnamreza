@@ -4,14 +4,14 @@ volumes:
 
 services:
   db:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     volumes:
       - postgres-data:/var/lib/postgresql/data
     expose:
       - "5432"
     environment:
-      POSTGRES_DB: wagtail
-      POSTGRES_USER: wagtail
+      POSTGRES_DB: pravna_mreza
+      POSTGRES_USER: pravna_mreza
       POSTGRES_PASSWORD: changeme
 
   wagtail:
@@ -24,8 +24,8 @@ services:
     environment:
       DJANGO_RUNSERVER_HIDE_WARNING: "true"
       DJANGO_DATABASE_HOST: db
-      DJANGO_DATABASE_NAME: wagtail
-      DJANGO_DATABASE_USERNAME: wagtail
+      DJANGO_DATABASE_NAME: pravna_mreza
+      DJANGO_DATABASE_USERNAME: pravna_mreza
       DJANGO_DATABASE_PASSWORD: changeme
     depends_on:
       - db
