@@ -27,7 +27,7 @@
                 <h2 class="blog-filter-title mt-0 mb-2">Filtriraj</h2>
                 <div class="blog-filter-links">
                     {% for tag in tags %}
-                    <a href="?tag={{ tag.slug }}" class="blog-filter-link {% if tag == selected_tag %}active{% endif %}" data-tag="{{ tag }}">{{ tag }}</a>
+                    <a href="{% if tag == selected_tag %}?{% else %}?tag={{ tag.slug }}{% endif %}" class="blog-filter-link {% if tag == selected_tag %}active{% endif %}" data-tag="{{ tag }}">{{ tag }}</a>
                     {% endfor %}
                 </div>
             </div>
