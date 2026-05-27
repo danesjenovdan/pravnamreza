@@ -1,8 +1,11 @@
 $(document).ready(function () {
   // newsletter form on landing
   $("#newsletter-btn").on("click", function (event) {
+    event.preventDefault();
+
     const campaign_slug = "pravna-mreza";
     const segment_id = 25;
+    const email = $("#newsletter-email").val();
 
     let url = `https://moj.djnd.si/${campaign_slug}/prijava?segment_id=${segment_id}`;
     url += `&email=${encodeURIComponent(email)}`;
