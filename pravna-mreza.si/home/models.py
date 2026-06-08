@@ -1,4 +1,5 @@
 from django.db import models
+from django.http import QueryDict
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, PageChooserPanel
@@ -458,12 +459,53 @@ class DonationPage(Page):
         verbose_name_plural = "Donacijske strani (z gumbi)"
 
 
+def get_referrer_params(request):
+    referrers = [
+        request.META.get("HTTP_REFERER"),
+        *request.GET.getlist("referer"),
+        *request.GET.getlist("referrer"),
+    ]
+    referrers = [r for r in referrers if r]
+    get_params = {
+        "referrer": ", ".join(referrers),
+    }
+    for key in request.GET:
+        if key.startswith("utm_"):
+            value = ", ".join(request.GET.getlist(key))
+            get_params[key] = value
+    return {
+        **get_params,
+    }
+
+
 class DonationEmbedPage(Page):
     embed_url = models.URLField()
 
     content_panels = Page.content_panels + [
         FieldPanel("embed_url", classname="full"),
     ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        embed_url = self.embed_url
+        type_text = "mesecno" if "mesecna" in embed_url else "enkratno"
+
+        if "?" in embed_url:
+            embed_url += "&"
+        else:
+            embed_url += "?"
+
+        referrer_params = get_referrer_params(request)
+        default_params_string = f"referrer=pravna-mreza.si&utm_source=pravna-mreza.si&utm_medium=website&utm_campaign=doniraj&utm_content={type_text}"
+        query_dict = QueryDict(default_params_string, mutable=True)
+        for key, value in referrer_params.items():
+            if value:
+                query_dict[key] = value
+        embed_url += query_dict.urlencode()
+
+        context["embed_url"] = embed_url
+        return context
 
     class Meta:
         verbose_name = "Donacijska stran z embedom"
