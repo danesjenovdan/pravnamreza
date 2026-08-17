@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 
 from home.pagination import paginate_limit_offset
 
-from .models import BlogArchivePage, BlogPage, BlogTag
+from .models import BlogArchivePage, BlogPage, BlogTag, NewsletterArchivePage
 
 
 class BlogArchivePagedView(TemplateView):
@@ -14,6 +14,8 @@ class BlogArchivePagedView(TemplateView):
 
         parent = int(self.request.GET.get("parent", 0))
         parent_page = BlogArchivePage.objects.filter(pk=parent).first()
+        if not parent_page:
+            parent_page = NewsletterArchivePage.objects.filter(pk=parent).first()
         if not parent_page:
             raise Http404("Parent page not found")
 
