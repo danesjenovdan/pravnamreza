@@ -1,18 +1,13 @@
 # Use an official Python runtime based on Debian 13 "trixie" as a parent image.
-FROM python:3.14-slim-trixie
+FROM python:3.14-slim-trixie AS builder
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 # Add user that will be used in the container.
 RUN useradd wagtail
 
 # Port used by this container to serve HTTP.
 EXPOSE 8000
-
-# Set environment variables.
-# 1. Force Python stdout and stderr streams to be unbuffered.
-# 2. Set PORT variable that is used by Gunicorn. This should match "EXPOSE"
-#    command.
-ENV PYTHONUNBUFFERED=1 \
-    PORT=8000
 
 # Install system packages required by Wagtail and Django.
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
@@ -24,12 +19,20 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libwebp-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# Install the application server.
-RUN pip install "gunicorn==26.0.0"
-
+# Set environment variables.
+# 1. Force Python stdout and stderr streams to be unbuffered.
+# 2. Set PORT variable that is used by Gunicorn. This should match "EXPOSE"
+#    command.
 # Install the project requirements.
-COPY requirements.txt /
-RUN pip install -r /requirements.txt
+ENV UV_COMPILE_BYTECODE=1 \
+	UV_LINK_MODE=copy \
+	UV_PYTHON_DOWNLOADS=0 \
+	UV_PROJECT_ENVIRONMENT=/opt/venv \
+	PATH="/opt/venv/bin:$PATH"
+
+COPY pyproject.toml uv.lock ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+	uv sync --locked --no-dev --no-install-project
 
 # Use /app folder as a directory where the source code is stored.
 WORKDIR /app
@@ -40,7 +43,24 @@ RUN chown wagtail:wagtail /app
 # Copy the source code of the project into the container.
 COPY --chown=wagtail:wagtail . .
 
-# Use user "wagtail" to run the build commands below and the server itself.
+FROM python:3.14-slim-trixie AS runtime
+
+# Add user that will be used in the container.
+RUN useradd wagtail
+
+EXPOSE 8000
+
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv \
+	PATH="/opt/venv/bin:$PATH" \
+	PYTHONUNBUFFERED=1 \
+    PORT=8000
+
+COPY --from=builder /opt/venv /opt/venv
+COPY --from=builder /app /app
+
+# Use /app folder as a directory where the source code is stored.
+WORKDIR /app
+
 USER wagtail
 
 # Runtime command that executes when "docker run" is called, it does the
