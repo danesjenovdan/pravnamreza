@@ -2,7 +2,7 @@ version: 2
 updates:
   # Python dependencies declared in pyproject.toml / uv.lock
   - package-ecosystem: "uv"
-    directory: "obljubadeladolg"
+    directory: "pravna-mreza.si"
     schedule:
       interval: "weekly"
     groups:
@@ -12,7 +12,7 @@ updates:
 
   # Base image and other Dockerfile instructions
   - package-ecosystem: "docker"
-    directory: "/"
+    directory: "pravna-mreza.si"
     schedule:
       interval: "weekly"
 
