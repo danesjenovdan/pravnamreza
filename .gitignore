@@ -1,37 +1,18 @@
-*.swp
-*.pyc
+# virtual env
+.venv
+
+# IDEs
+.vscode/*
+.idea
+
+# kustomize secrets
+/kustomize/secrets.yaml
+.env
+
 .DS_Store
-/.coverage
-/dist/
-/build/
-/MANIFEST
-/wagtail.egg-info/
-/docs/_build/
-/.tox/
-/venv
-/node_modules/
-npm-debug.log*
-*.idea/
-/*.egg/
-/.cache/
-/.pytest_cache/
 
-### JetBrains
-.idea/
-*.iml
-*.ipr
-*.iws
-coverage/
-client/node_modules
+*.dump
 
-### vscode
-# .vscode
-
-### secrets
-secrets.yaml
-
-### pycache
-__pycache__/
-
-### db dumps
-db*.dump
+# allow extensions recommendations
+!.vscode/extensions.json
+!.vscode/settings.json
