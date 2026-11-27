@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="blog-grid">
-    {% for blogpost in blogposts %}
+    {% for blogpost in all_posts %}
       {% include "blog/blog_grid_item.html" with item=blogpost %}
     {% endfor %}
     </div>

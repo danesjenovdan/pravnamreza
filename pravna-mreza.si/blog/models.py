@@ -1,4 +1,5 @@
 from django.db import models
+from django.http import QueryDict
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from wagtail import blocks
@@ -7,11 +8,16 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
 from home.pagination import paginate_limit_offset
+from home.utils import get_referrer_params
 
 
 class BlogTag(models.Model):
     name = models.TextField(
         verbose_name="Ime",
+    )
+    is_fundraiser = models.BooleanField(
+        default=False,
+        verbose_name="Je zbiranje sredstev",
     )
 
     @property
@@ -142,6 +148,64 @@ class BlogPage(Page):
         verbose_name_plural = "Objave"
 
 
+class FundraiserPage(BlogPage):
+    is_active_fundraiser = models.BooleanField(
+        default=True,
+        verbose_name="Aktivno zbiranje sredstev",
+    )
+    fundraiser_slug = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name="Oznaka za donacije na 'podpri' strani, ki se uporabi za embed donacij",
+    )
+
+    content_panels = [
+        panel
+        for panel in BlogPage.content_panels
+        if not isinstance(panel, FieldPanel) or panel.field_name != "tag"
+    ] + [
+        FieldPanel("is_active_fundraiser"),
+        FieldPanel("fundraiser_slug"),
+    ]
+
+    parent_page_types = ["FundraiserArchivePage"]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        embed_url = f"https://moj.djnd.si/{self.fundraiser_slug}/doniraj"
+        campaign = self.title
+
+        if "?" in embed_url:
+            embed_url += "&"
+        else:
+            embed_url += "?"
+
+        referrer_params = get_referrer_params(request)
+        default_params_string = f"referrer=pravna-mreza.si&utm_source=pravna-mreza.si&utm_medium=website&utm_campaign={campaign}"
+        query_dict = QueryDict(default_params_string, mutable=True)
+        for key, value in referrer_params.items():
+            if value:
+                query_dict[key] = value
+        embed_url += query_dict.urlencode()
+
+        context["embed_url"] = embed_url
+        return context
+
+    def save(self, *args, **kwargs):
+        fundraiser_tag, created = BlogTag.objects.get_or_create(
+            is_fundraiser=True,
+            defaults={"name": "Zbiranje sredstev"},
+        )
+        self.tag = fundraiser_tag
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Zbiranje sredstev"
+        verbose_name_plural = "Zbiranja sredstev"
+
+
 class BlogAuthorRelationship(models.Model):
     blog = ParentalKey(
         "BlogPage",
@@ -234,3 +298,57 @@ class NewsletterArchivePage(Page):
     class Meta:
         verbose_name = "Seznam novičnikov"
         verbose_name_plural = "Seznami novičnikov"
+
+
+class FundraiserArchivePage(Page):
+    headline_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Slika na naslovnici",
+    )
+    active_title = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Naslov aktualnih zbiranj",
+    )
+    archived_title = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Naslov arhiviranih zbiranj",
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("headline_image"),
+        FieldPanel("active_title"),
+        FieldPanel("archived_title"),
+    ]
+
+    parent_page_types = ["home.HomePage"]
+    subpage_types = ["home.GenericPage", "FundraiserPage"]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        active_fundraisers = (
+            FundraiserPage.objects.child_of(self)
+            .live()
+            .filter(is_active_fundraiser=True)
+            .order_by("-date", "-first_published_at", "id")
+        )
+        archived_fundraisers = (
+            FundraiserPage.objects.child_of(self)
+            .live()
+            .filter(is_active_fundraiser=False)
+            .order_by("-date", "-first_published_at", "id")
+        )
+        context["active_fundraisers"] = active_fundraisers
+        context["archived_fundraisers"] = archived_fundraisers
+        return context
+
+    class Meta:
+        verbose_name = "Seznam zbiranja sredstev"
+        verbose_name_plural = "Seznami zbiranja sredstev"

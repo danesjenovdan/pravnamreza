@@ -1754,9 +1754,31 @@ header .navbar .nav-item a.nav-link:focus-visible {
   gap: 25px;
 }
 
+.blog-grid-item {
+  cursor: pointer;
+}
+
+.blog-grid-item.blog-grid-item--is-fundraiser {
+  background: linear-gradient(-218deg, #ece6f8 0%, #d3c8ee 100%);
+  border: 2px solid #3A1791;
+}
+
 .blog-grid-item:hover,
 .blog-grid-item:focus-within {
   background: linear-gradient(135deg, #F3F1F9 0%, #F7F6FB 100%);
+}
+
+.blog-grid-item.blog-grid-item--is-fundraiser:hover,
+.blog-grid-item.blog-grid-item--is-fundraiser:focus-within {
+  background: linear-gradient(92.89deg, #3A1791 0.54%, #160444 99.5%);
+  color: #fff;
+}
+
+.blog-grid-item.blog-grid-item--is-fundraiser:hover p,
+.blog-grid-item.blog-grid-item--is-fundraiser:focus-within p,
+.blog-grid-item.blog-grid-item--is-fundraiser:hover .blog-grid-title,
+.blog-grid-item.blog-grid-item--is-fundraiser:focus-within .blog-grid-title {
+  color: #fff;
 }
 
 .blog-grid-item:focus-within {
@@ -1797,11 +1819,17 @@ header .navbar .nav-item a.nav-link:focus-visible {
   outline: none;
 }
 
-.blog-grid-subtitle {
+.blog-grid-subtitle,
+.fundraiser-item-subtitle {
   margin-top: 10px;
   font-family: var(--font-family-sans-serif);
   font-size: 16px;
   font-weight: 400;
+}
+
+.fundraiser-item-subtitle {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .blog-grid-text,
@@ -1881,19 +1909,22 @@ header .navbar .nav-item a.nav-link:focus-visible {
 }
 
 /* new project list */
-.project-item {
+.project-item,
+.fundraiser-item {
   margin-bottom: 25px;
   padding-bottom: 25px;
   border-bottom: 2px solid #D8D1E9;
 }
 
-.project-item:last-child {
+.project-item:last-child,
+.fundraiser-item:last-child {
   margin-bottom: 0;
   padding-bottom: 0;
   border-bottom: 0;
 }
 
-.project-item .project-item-image {
+.project-item .project-item-image,
+.fundraiser-item .fundraiser-item-image {
   display: block;
   width: 100%;
   height: auto;
@@ -1901,7 +1932,8 @@ header .navbar .nav-item a.nav-link:focus-visible {
   object-fit: cover;
 }
 
-.project-item .project-item-title {
+.project-item .project-item-title,
+.fundraiser-item .fundraiser-item-title {
   margin-top: 0;
   margin-bottom: 1rem;
   font-family: var(--font-family-sans-serif);
@@ -1912,23 +1944,33 @@ header .navbar .nav-item a.nav-link:focus-visible {
   text-transform: none;
 }
 
-.project-item .project-item-title a {
+.fundraiser-item .fundraiser-item-title {
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.project-item .project-item-title a,
+.fundraiser-item .fundraiser-item-title a {
   color: inherit;
 }
 
-.project-item .project-item-title a:focus-visible {
+.project-item .project-item-title a:focus-visible,
+.fundraiser-item .fundraiser-item-title a:focus-visible {
   box-shadow: none;
   outline: 2px solid #3A179180;
 }
 
 .project-item .project-item-text,
-.project-item .project-item-text p {
+.project-item .project-item-text p,
+.fundraiser-item .fundraiser-item-text,
+.fundraiser-item .fundraiser-item-text p {
   font-size: 18px;
   font-weight: 400;
   line-height: 1.5;
 }
 
-.project-item .project-item-text p {
+.project-item .project-item-text p,
+.fundraiser-item .fundraiser-item-text p {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
@@ -1936,36 +1978,44 @@ header .navbar .nav-item a.nav-link:focus-visible {
   overflow: hidden;
 }
 
-.project-item .project-item-text p:not(:first-child) {
+.project-item .project-item-text p:not(:first-child),
+.fundraiser-item .fundraiser-item-text p:not(:first-child) {
   display: none;
 }
 
-.project-item .project-item-text svg {
+.project-item .project-item-text svg,
+.fundraiser-item .fundraiser-item-text svg {
   width: 2rem;
   height: 1.6667rem;
   color: #3A1791;
 }
 
-.archived-project-list .project-item .project-item-image {
+.archived-project-list .project-item .project-item-image,
+.archived-fundraiser-list .fundraiser-item .fundraiser-item-image {
   opacity: 0.5;
   filter: grayscale(50%);
 }
 
 @media (max-width: 991.98px) {
-  .project-item .project-item-image {
+  .project-item .project-item-image,
+  .fundraiser-item .fundraiser-item-image {
     margin-bottom: 1rem;
   }
 
-  .project-item .project-item-title {
+  .project-item .project-item-title,
+  .fundraiser-item .fundraiser-item-title {
     font-size: 24px;
   }
 
   .project-item .project-item-text,
-  .project-item .project-item-text p {
+  .project-item .project-item-text p,
+  .fundraiser-item .fundraiser-item-text,
+  .fundraiser-item .fundraiser-item-text p {
     font-size: 16px;
   }
 
-  .project-item .project-item-text svg {
+  .project-item .project-item-text svg,
+  .fundraiser-item .fundraiser-item-text svg {
     width: 1.5rem;
     height: 1.25rem;
   }

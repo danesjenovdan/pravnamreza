@@ -1,0 +1,107 @@
+{% extends "home/base_page.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}page page--generic{% endblock %}
+
+{% block page_body %}
+
+<div class="row row-white headline-blog mb-0 pb-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h1 class="mb-1 mt-0">
+          {{ page.title }}
+        </h1>
+        <div class="blog-subtitle d-block mb-4">
+          {% if page.tag %}<span>{{ page.tag }} | </span>{% endif %}
+          <span>{{ page.date|date:'d. m. Y' }}</span>
+        </div>
+        {% for author in page.authors %}
+        <div class="d-flex align-items-center my-2">
+          {% if author.image %}
+          <div class="blog-image">{% image author.image width-1100 class="img-fluid" %}</div>
+          {% endif %}
+          <div>
+            <span class="blog-author d-block">{{ author }}</span>
+          </div>
+        </div>
+        {% endfor %}
+        <div class="mt-4">
+          {{ page.intro_text|richtext }}
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex align-items-center justify-content-end">
+        {% image page.preview_image width-1100 class="img-fluid" %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <hr class="my-5" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row row-white mt-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 order-2 order-lg-1">
+        {% for block in page.body %}
+        <div class="row blog-body">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                {{ block.value|richtext }}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% if page.fundraiser_slug %}
+      <div class="col-lg-4 order-1 order-lg-2">
+        <iframe id="DonationEmbed" src="{{ embed_url }}" border="0"></iframe>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.6/iframeResizer.min.js"
+          integrity="sha512-f0wd6UIvZbsjPNebGx+uMzHmg6KXr1jWvumJDYSEDmwYJYOptZ0dTka/wBJu7Tj80tnCYMKoKicqvZiIc9GJgw=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <script>iFrameResize({ checkOrigin: false }, '#DonationEmbed');</script>
+      </div>
+      {% endif %}
+      {% if page.related_blog_posts %}
+      <div class="col-lg-4 pl-lg-5">
+        <div class="blog-sidebar">
+          <h4 class="blog-sidebar-title">Povezane objave</h4>
+          {% for blogpost in page.related_blog_posts %}
+          <hr>
+          <div>
+            <h5><a href="{{ blogpost.value.specific.url }}">{{ blogpost.value.title }}</a></h5>
+            {% if blogpost.value.specific.tag %}
+            <span class="blog-author d-block">{{ blogpost.value.specific.tag }}</span>
+            {% endif %}
+            {% if blogpost.value.specific.authors %}
+            <span class="blog-author d-block">{{ blogpost.value.specific.authors_list_string }}</span>
+            {% endif %}
+            <time class="blog-subtitle d-block">{{ blogpost.value.specific.date|date:'d. m. Y' }}</time>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <div class="row mt-4">
+      <div class="col">
+        <a href="{{ blogpost_archive }}" class="back-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="13.75 20.218 29.959 14.564" transform="rotate(180)"><path d="M43.709 27.5 29.15 20.218V26.4h-15.4v2.2h15.4v6.182L43.709 27.5ZM31.35 23.782l7.441 3.718-7.441 3.718v-7.436Z"/></svg>Nazaj na seznam</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock page_body %}

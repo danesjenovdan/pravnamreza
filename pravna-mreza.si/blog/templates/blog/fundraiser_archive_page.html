@@ -1,0 +1,57 @@
+{% extends "home/base_page.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}page page--generic{% endblock %}
+
+{% block page_body %}
+
+<div class="row row-light-purple headline headline--blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <h1 class="headline-title">{{ page.title }}</h1>
+            </div>
+            <div class="col-lg-5">
+                <div class="headline-image">
+                    {% image page.headline_image width-1100 class="img-fluid" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if active_fundraisers %}
+<div class="row row-white fundraiser-list">
+    <div class="container">
+        <div class="row mb-3 pb-3">
+            <div class="col mb-1">
+                <div class="archive-title">
+                    <h2>{{ page.active_title }}</h2>
+                </div>
+            </div>
+        </div>
+        {% for fundraiser in active_fundraisers %}
+            {% include "blog/fundraiser_item.html" %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if archived_fundraisers %}
+<div class="row row-white archived-fundraiser-list">
+    <div class="container">
+        <div class="row mb-3 pb-3">
+            <div class="col mb-1">
+                <div class="archive-title">
+                    <h2>{{ page.archived_title }}</h2>
+                </div>
+            </div>
+        </div>
+        {% for fundraiser in archived_fundraisers %}
+            {% include "blog/fundraiser_item.html" %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock page_body %}

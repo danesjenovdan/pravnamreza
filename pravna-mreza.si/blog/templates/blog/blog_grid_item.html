@@ -1,6 +1,6 @@
 {% load static wagtailcore_tags wagtailimages_tags %}
 
-<div class="blog-grid-item">
+<div class="blog-grid-item {% if item.tag.is_fundraiser %}blog-grid-item--is-fundraiser{% endif %}">
   <a class="blog-grid-image" href="{{ item.url }}" tabindex="-1">
     {% if item.preview_image %}
     {% image item.preview_image width-720 class="img-fluid" %}

@@ -9,6 +9,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 
 from blog.models import BlogPage
+from home.utils import get_referrer_params
 
 
 class ExternalLinkBlock(blocks.StructBlock):
@@ -325,6 +326,14 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         verbose_name="Povezava do seznama monitoring zapisov",
     )
+    fundraiser_archive_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.SET_NULL,
+        verbose_name="Povezava do seznama zbiranja sredstev",
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("intro_text", classname="full"),
@@ -333,22 +342,40 @@ class HomePage(Page):
         FieldPanel("blog_section_archive_link"),
         FieldPanel("blog_section_archive_link_title"),
         FieldPanel("monitor_archive_link"),
+        FieldPanel("fundraiser_archive_link"),
     ]
 
     parent_page_types = []
 
     def get_context(self, request):
         context = super().get_context(request)
-        parent_page = self.blog_section_archive_link
-        if not parent_page:
-            blogposts = []
+
+        if not self.blog_section_archive_link:
+            blogposts = BlogPage.objects.none()
         else:
             blogposts = (
-                BlogPage.objects.child_of(parent_page)
+                BlogPage.objects.child_of(self.blog_section_archive_link)
                 .live()
                 .order_by("-date", "-first_published_at", "id")[:6]
             )
         context["blogposts"] = blogposts
+
+        # use base BlogPage queryset for fundraisers as well so we can combine them
+        if not self.fundraiser_archive_link:
+            fundraisers = BlogPage.objects.none()
+        else:
+            fundraisers = (
+                BlogPage.objects.child_of(self.fundraiser_archive_link)
+                .live()
+                .order_by("-date", "-first_published_at", "id")[:6]
+            )
+        context["fundraisers"] = fundraisers
+
+        all_posts = (blogposts | fundraisers).order_by(
+            "-date", "-first_published_at", "id"
+        )[:6]
+        context["all_posts"] = all_posts
+
         return context
 
     class Meta:
@@ -457,25 +484,6 @@ class DonationPage(Page):
     class Meta:
         verbose_name = "Donacijska stran (z gumbi)"
         verbose_name_plural = "Donacijske strani (z gumbi)"
-
-
-def get_referrer_params(request):
-    referrers = [
-        request.META.get("HTTP_REFERER"),
-        *request.GET.getlist("referer"),
-        *request.GET.getlist("referrer"),
-    ]
-    referrers = [r for r in referrers if r]
-    get_params = {
-        "referrer": ", ".join(referrers),
-    }
-    for key in request.GET:
-        if key.startswith("utm_"):
-            value = ", ".join(request.GET.getlist(key))
-            get_params[key] = value
-    return {
-        **get_params,
-    }
 
 
 class DonationEmbedPage(Page):
